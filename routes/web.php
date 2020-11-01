@@ -83,7 +83,8 @@ Route::group(['middleware'=>'clientlogin'],function (){
     Route::get('/client_order_delete/{id}','UsersController@client_delete_order')->name('client.order.delete');
     Route::get('/invoice_status','UsersController@invoice_sttus')->name('status.invoice');
     Route::get('/statement_status','UsersController@statement_sttus')->name('status.statement');
-    Route::get('/invoice_download','UsersController@invoicedownloadcsv')->name('client.invoice.download');
+    Route::get('/invoice_csv_download','UsersController@invoicedownloadcsv')->name('client.invoice.download');
+    Route::get('/invoice_pdf_download','UsersController@invoicedownloadpdf')->name('client.pdf.invoice.download');
 
 
     // Cart Section

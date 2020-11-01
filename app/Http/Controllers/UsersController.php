@@ -14,6 +14,7 @@ use App\Complain;
 use App\Cart;
 use App\Orders;
 use GuzzleHttp\Client;
+use PDF;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -119,6 +120,20 @@ class UsersController extends Controller
             };
 
             return response()->stream($callback, 200, $headers);
+    }
+
+    public function invoicedownloadpdf()
+    {
+        $id= auth()->user()->id;
+        $menu_active=15;
+        $name = auth()->user()->name;
+        $invoice_data= CustomOrder::where('users_id',$id)->where('approved',0)->get();
+
+        $pdf = PDF::loadView('back-end.Client.invoicepdf', compact(['menu_active','invoice_data']));
+
+
+
+        return $pdf->download( $name.'.pdf');
     }
 
 

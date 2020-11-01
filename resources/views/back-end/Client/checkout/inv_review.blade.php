@@ -28,6 +28,7 @@
     <div class="widget-content" >
         <div class="row-fluid">
         <a name="" id="" class="btn btn-primary" href="{{ route('client.invoice.download')}}" role="button">Download CSV</a>
+        <a name="" id="" class="btn btn-primary" href="{{ route('client.pdf.invoice.download')}}" role="button">Download PDF</a>
         </div>
     </div>
 
@@ -40,7 +41,7 @@
              <tr>
                  <th>ID</th>
                  <th>Item</th>
-                 <th>Quntity</th>
+                 <th>Quantity</th>
                  <th>Price</th>
                  <th>Amount</th>
              </tr>
