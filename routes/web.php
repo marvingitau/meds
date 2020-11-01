@@ -79,7 +79,14 @@ Route::group(['middleware'=>'clientlogin'],function (){
     Route::get('/client_account','UsersController@u_dashboard')->name('client.dashboard');
     Route::get('/client_products_list','UsersController@products')->name('product.list');
     Route::get('/client_profile','UsersController@u_profile')->name('client.profile');
+
     Route::get('/order_status','UsersController@order_sttus')->name('order.status');
+    Route::get('/order_placed','UsersController@order_placed')->name('order placed');
+    Route::get('/order_in_warehouse','UsersController@order_in_warehouse')->name('order.inwarehouse');
+    Route::get('/order_packed','UsersController@order_packed')->name('order.packed');
+    Route::get('/order_ready_for_dispatch','UsersController@order_readyFor_dispatch')->name('order.ready.for.dispatch');
+
+
     Route::get('/client_order_delete/{id}','UsersController@client_delete_order')->name('client.order.delete');
     Route::get('/invoice_status','UsersController@invoice_sttus')->name('status.invoice');
     Route::get('/statement_status','UsersController@statement_sttus')->name('status.statement');
@@ -139,6 +146,9 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function (){
     Route::get('/approved_order', 'AdminController@aprovd_order')->name('approved_order');
     Route::get('/pending_order', 'AdminController@pending_order')->name('pending_order');
     Route::get('/view_order/{id}', 'AdminController@viu_order')->name('view_order');//order to approve
+
+    Route::get('/view_warehouse_order', 'AdminController@order_in_warehouse')->name('warehouse_order');//view clients order in warehouse
+
     Route::get('/view_app_order/{id}', 'AdminController@viu_app_order')->name('view_approved_order');//order to viu
     Route::get('/approving_order/{id}', 'AdminController@aproving_order')->name('approving_order');
     Route::get('/admin_delete_order/{id}', 'AdminController@order_destroy')->name('delete_order');
@@ -215,6 +225,10 @@ Route::group(['prefix'=>'accounts','middleware'=>['auth','subadmin']],function (
  Route::group(['prefix'=>'warehouseManager','middleware'=>['auth','subadmin']],function (){
     Route::get('/','AdminController@whmgrindex')->name('wmgr');
     Route::get('/staff/order/view/{id}', 'AdminController@whmgrViewStafforder')->name('wrviewStafforder');//order to approve
+
+    Route::get('/staff/order/packaging/{id}', 'AdminController@whmgrPackagingFin')->name('packaging_fin');//client (non staff) order packaged
+    Route::get('/staff/order/dispatch/{id}', 'AdminController@whmgrReadyforDispatch')->name('readyfor_dispatch');//client (non staff) order ready for dispatch
+
     Route::get('/staff/order/approved','AdminController@whmgrStaffApprovedOrder')->name('whmgrApprovedStaffOrder');
     Route::get('/staff/order/approving/{id}', 'AdminController@whmgrApprovingOrder')->name('whmgrApprovingOrder');
     Route::get('/staff/order/approved/view/{id}', 'AdminController@otherAdminsViewApprovedOrder')->name('otherAdminsViewApprovedOrder');//order to viu

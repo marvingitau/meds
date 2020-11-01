@@ -44,7 +44,20 @@
                             <tr>
                                 <td scope="row"> <b>ID:</b> {{  $order->id}} </td>
                                 <td><b>Price:</b> {{  $order->grand_total}}  </td>
-                            <td  class="<?php echo $order->order_verify==='1'?'bg-success':'bg-warning'; ?>"><b>Status:</b> <?php echo $order->order_verify==='1'?'Approved':'Pending' ?></td>
+                            <td  class="<?php echo $order->order_verify ==1 ?'bg-success text-center':'bg-warning text-center'; ?>"><b>Status:</b>
+                                <?php
+                                if($order->order_verify == 1) {
+                                    if($order->order_type == 99){
+                                        echo 'Processed';
+
+                                    }else{
+                                        echo 'Approved';
+                                    }
+
+                                }else{
+                                    echo 'Pending...';
+                                }
+                                 ?></td>
                             </tr>
 
 

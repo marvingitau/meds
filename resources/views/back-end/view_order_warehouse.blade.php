@@ -1,5 +1,5 @@
 
-@extends('back-end.OtherAdmins.layouts.master')
+@extends('back-end.layouts.master')
 @section('title','Admin')
 @section('content')
     <!--breadcrumbs-->
@@ -14,13 +14,9 @@
     </div>
    @endif
 
-   <div class="widget-content" >
-    <div class="row-fluid">
-
-
    <div class="widget-box">
     <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-      <h5>Approved Order</h5>
+      <h5>Order in Warehouse</h5>
     </div>
     <div class="widget-content nopadding">
     <table class="table">
@@ -31,11 +27,9 @@
         <thead>
             <tr>
                 <th>ORDER_ID</th>
-                <th>From</th>
-                <th>Price</th>
-                {{-- <th>Status</th> --}}
+                <th>Price(Ksh)</th>
+                <th>Status</th>
                 <th>Action</th>
-                <th>Extra Action</th>
             </tr>
         </thead>
         <tbody >
@@ -44,33 +38,22 @@
             @foreach ($approvedOrder as $item)
             <?php $i++; ?>
             <tr>
-                <td scope="row"> <div class="text-center0">{{ $item->id }}</div> </td>
-                <td scope="row"> <div class="text-center0">{{ $item->name }}</div> </td>
-                <td> <div class="text-center0">{{ $item->grand_total }}</div> </td>
-                {{-- <td class="<php echo $item->order_verify; ?>"> <div class="text-center ">Approved</div>  </td> --}}
+                <td scope="row"> <div class="text-center"><div class="text-center0">{{ $item->id }}</div></div>  </td>
+                <td> <div class="text-center">{{ $item->grand_total }}</div> </td>
+                <td class="<?php echo $item->order_verify; ?>"> <div class="text-center ">In WareHouse</div>  </td>
 
-                <td class="text-center">
-                    <a class=" btn btn-info"
-                    role="button" href="{{ route('otherAdminsViewApprovedOrder',$item->id)}}">
-                            <span class="glyphicon glyphicon-edit"></span> view
-                    </a>
-                    <button rel="{{$item->id}}" rel1="delete_order" class="btn btn-danger btn-mini deleteRecord">
-                        <span class="glyphicon glyphicon-trash"></span> Delete
-                    </button></td>
+                <td>
+                    <div class="text-center">
+                        <a class=" btn btn-info"
+                        role="button" href="{{ route('view_approved_order',$item->id)}}">
+                                <span class="glyphicon glyphicon-edit"></span> view
+                        </a>
+                        <button rel="{{$item->id}}" rel1="delete_order" class="btn btn-danger btn-mini deleteRecord">
+                            <span class="glyphicon glyphicon-trash"></span> Delete
+                        </button>
+                    </div>
+                   </td>
                 </td>
-                @if($item->order_type == 99 && $item->progress_status_dispatch == null )
-                <td class="bg-warning text-center">
-                    Packaging Required
-                </td>
-                @elseif($item->order_type == 99 && $item->progress_status_dispatch ==1  && $item->progress_status_packaged ==1)
-                <td class="bg-success text-center">
-                    Approved
-                </td>
-                @elseif($item->order_type != 99)
-                <td class="bg-success text-center">
-                    Approved
-                </td>
-                @endif
             </tr>
 
             @endforeach
@@ -81,9 +64,6 @@
     </table>
     </div>
     </div>
-
-</div>
-</div>
 
 @endsection
 
@@ -113,9 +93,7 @@
     <script src="{{asset('public/js/matrix.tables.js')}}"></script>
     <!--<script src="{{asset('public/js/matrix.form_validation.js')}}"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
     <script type="text/javascript">
-
 
         $(".deleteRecord").click(function () {
             var id=$(this).attr('rel');
@@ -134,9 +112,10 @@
                 buttonsStyling:false,
                 reverseButtons:true
             },function () {
-                window.location.href="/admin/"+deleteFunction+"/"+id;
+                window.location.href="/admin/admin_"+deleteFunction+"/"+id;
             });
         });
+
 
         // This function is called from the pop-up menus to transfer to
         // a different page. Ignore if the value returned is a null string:
@@ -161,29 +140,19 @@
             document.gomenu.selector.selectedIndex = 2;
         }
 
-        // datatable
 
         // datatable
         jQuery(document).ready(function($) {
-        // $('.table').DataTable( {
-        //     columnDefs: [ {
-        //         targets: [ 0 ],
-        //         orderData: [ 0, 1 ]
-        //     }, {
-        //         targets: [ 1 ],
-        //         orderData: [ 1, 0 ]
-        //     }, {
-        //         targets: [ 4 ],
-        //         orderData: [ 4, 0 ]
-        //     } ]
-        // } );
-
 
         $('.table').DataTable({
 		"bJQueryUI": true,
 		"sPaginationType": "full_numbers",
 		"sDom": '<""l>t<"F"fp>'
 	    });
+
+
+
+
 
     } );
 

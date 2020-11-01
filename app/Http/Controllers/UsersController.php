@@ -76,6 +76,52 @@ class UsersController extends Controller
         // return view('back-end.Client.checkout.ord_review',compact(['menu_active','invoice_pending','invoice_approved']));
     }
 
+    public function order_placed()
+    {
+        $menu_active=18;
+        $id= auth()->user()->id;
+
+        $allOrders= Orders::where('users_id',$id)->where('order_verify',0)->get();
+
+
+        return view('back-end.Client.checkout.ord_review',compact(['menu_active','allOrders']));
+    }
+
+    public function order_in_warehouse()
+    {
+        $menu_active=19;
+        $id= auth()->user()->id;
+
+        $allOrders= Orders::where('users_id',$id)->where('order_verify',1)->where('order_type',99)->get();
+
+
+        return view('back-end.Client.checkout.ord_review',compact(['menu_active','allOrders']));
+    }
+
+    public function order_packed()
+    {
+        $menu_active=20;
+        $id= auth()->user()->id;
+
+        $allOrders= Orders::where('users_id',$id)->where('order_verify',1)->where('progress_status_packaged',1)->get();
+
+
+        return view('back-end.Client.checkout.ord_review',compact(['menu_active','allOrders']));
+    }
+
+    public function order_readyFor_dispatch()
+    {
+        $menu_active=21;
+        $id= auth()->user()->id;
+
+        $allOrders= Orders::where('users_id',$id)->where('order_verify',1)->where('progress_status_dispatch',1)->get();
+
+
+        return view('back-end.Client.checkout.ord_review',compact(['menu_active','allOrders']));
+    }
+
+
+
     public function client_delete_order(Request $request ,$id)
     {
         $u_id= auth()->user()->id;

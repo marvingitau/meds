@@ -156,7 +156,7 @@ class AdminController extends Controller
     public function aprovd_order()
     {
         $menu_active=7;
-        $approvedOrder=Orders::where('order_verify', 1)->whereNull('order_type')->get();
+        $approvedOrder=Orders::where('order_verify', 1)->whereNotNull('progress_status_dispatch')->orWhereNotNull('progress_status_ac')->get();
 
 
         return view('back-end.approved_order',compact(['menu_active','approvedOrder']));
@@ -192,7 +192,7 @@ class AdminController extends Controller
                     $recOd=CustomOrder::where('id', $id)->where('approved', 0)->get();
 
                     foreach ($recOd as $key => $va) {
-                       $va->approved = 0;
+                       $va->approved = 1;
                        $va->save();
                     }
                 }
@@ -202,7 +202,8 @@ class AdminController extends Controller
         }
 
         foreach ($approvingItems as $key => $value) {
-           $value->order_verify= 0;
+           $value->order_verify= 1;
+           $value->order_type= 99;  //push this order to the warehouse mgr
            $value->save();
         }
         // dd(OrderResource::collection($approvingItems)) ;
@@ -226,18 +227,28 @@ class AdminController extends Controller
 
         ];
 
-        dd(json_encode($approv_order_data));
+        // dd(json_encode($approv_order_data));
 
-        $url = "http://41.207.79.81:89/sysproapi/v1/order/create";
+        // $url = "http://41.207.79.81:89/sysproapi/v1/order/create";  //check on this with victor
 
 
-        $client = new Client;
-        $response = $client->request('POST',  $url, [
-            'form_params' => $approv_order_data,'verify' => false
-        ]);
+        // $client = new Client;
+        // $response = $client->request('POST',  $url, [
+        //     'form_params' => $approv_order_data,'verify' => false
+        // ]);
 
-        return back()->with('message',(json_decode($response->getBody(), true))['Message'] );
-        // return back()->with('message','Order Approved');
+        // return back()->with('message',(json_decode($response->getBody(), true))['Message'] );
+        return back();
+
+    }
+
+    public function order_in_warehouse()
+    {
+
+        $menu_active=10;
+        $approvedOrder=Orders::where('order_verify', 1)->where('order_type',99)->whereNull('progress_status_packaged')->get();
+
+        return view('back-end.view_order_warehouse',compact(['menu_active','approvedOrder']));
 
     }
 
@@ -557,7 +568,7 @@ class AdminController extends Controller
     public function whmgrApprovingOrder($id)
     {
 
-        $approvingItems = Orders::where('id', $id)->where('order_verify', 0)->get();
+        $approvingItems = Orders::where('id', $id)->whereNotNull('order_type')->get();
 
         foreach ( $approvingItems as $key => $value ) {
             if($value->items){
@@ -583,6 +594,28 @@ class AdminController extends Controller
            $value->save();
         }
         return back()->with('message','Order Approved');
+
+    }
+
+    public function whmgrPackagingFin($id)
+    {
+        $packagingItems = Orders::where('id', $id)->whereNotNull('order_type')->get();
+        foreach ($packagingItems as $key => $value) {
+            $value->progress_status_packaged= 1;
+            $value->save();
+         }
+         return back()->with('message','Order Packaged');
+
+    }
+
+    public function whmgrReadyforDispatch($id)
+    {
+        $packagingItems = Orders::where('id', $id)->whereNotNull('order_type')->get();
+        foreach ($packagingItems as $key => $value) {
+            $value->progress_status_dispatch = 1;
+            $value->save();
+         }
+         return back()->with('message','Order Ready for Dispatch');
 
     }
 

@@ -34,9 +34,9 @@ class CreateOrdersTable extends Migration
 
             $table->integer('progress_status_whmgr')->nullable();
             $table->integer('progress_status_hr')->nullable();
-            $table->integer('progress_status_sms')->nullable();
+            $table->integer('progress_status_packaged')->nullable();
             $table->integer('progress_status_ac')->nullable();
-            $table->integer('progress_status_sg')->nullable();
+            $table->integer('progress_status_dispatch')->nullable();
 
             $table->integer('order_type')->nullable();
 

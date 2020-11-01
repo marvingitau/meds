@@ -17,7 +17,17 @@
 
    <div class="widget-content" >
     <div class="row-fluid">
+        <div class="row">
 
+            <div class="col-md-6">
+                <a name="" id="" class="btn btn-primary w-100 my-2 bg-warning" href="{{route('packaging_fin',$id) }}" role="button" style=" border-color: #0062cc00;
+                box-shadow: 0 0 0 .2rem rgba(38, 143, 255, 0); ">Packaging Finished</a>
+              </div>
+              <div class="col-md-6">
+                <a name="" id="" class="btn btn-primary w-100 my-2 bg-warning" href="{{route('readyfor_dispatch',$id) }}" role="button" style=" border-color: #0062cc00;
+                box-shadow: 0 0 0 .2rem rgba(38, 143, 255, 0); ">Order ready for dispatch</a>
+              </div>
+        </div>
     <table class="table">
         <div class="text-center"> Approved Order</div>
 
@@ -27,10 +37,7 @@
 
         </thead>
         <tbody >
-          {{-- <tr>
-                <a name="" id="" class="btn btn-primary w-100 my-2" href="{{route('approving_order',$id) }}" role="button" style="background-color:#f77b01; border-color: #0062cc00;
-                    box-shadow: 0 0 0 .2rem rgba(38, 143, 255, 0); ">Approve This Order</a>
-            </tr> --}}
+
           {{-- <tr> --}}
           <thead>
           <tr>Order ID: {{ $Order->id }}</tr>
