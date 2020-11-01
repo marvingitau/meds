@@ -153,11 +153,15 @@ class UsersController extends Controller
 
         $user = auth()->user()->form_title;
         if($user == "private institution"){
-            $u_id = "A";
+            $u_id = "PR";
         }elseif($user == "faithbased institution"){
-            $u_id = "A";
-        }else{
-
+            $u_id = "OH";
+        }elseif($user =="government institution"){
+            $u_id = "OH";
+        }elseif($user =="ngo"){
+            $u_id = "NG";
+        }elseif($user =="learning institutions"){
+            $u_id = "LN";
         }
 
         // product category  id
