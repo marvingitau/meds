@@ -5,7 +5,7 @@
         // $categories=DB::table('product__categories')->where([['status',1],['parent_id',0]])->get();
         $categories = DB::table('list_of_product_class_descriptions_Sheet')->get()->toArray();
     ?>
-    <h2 style="padding-top: 4rem;">Category</h2>
+    <h2 style="padding-top: 4rem;"> {{ ___('Category') }} </h2>
 
 
 

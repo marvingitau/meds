@@ -38,7 +38,8 @@
                     <thead>
                     <tr class="cart_menu">
                         <td class="image">Item</td>
-                        <td class="description"></td>
+                        <td class="description">Name</td>
+                        <td class="currency">Currency</td>
                         <td class="price">Price</td>
                         <td class="quantity">Quantity</td>
                         <td class="total">Total</td>
@@ -61,8 +62,12 @@
                                     <h4><a href="">{{$cart_data->product_name}}</a></h4>
                                     {{-- <p>{{$cart_data->product_code}} | {{$cart_data->size}}</p> --}}
                                 </td>
+                                <td class="cart_description">
+                                    <h4><a href="">{{$cart_data->baseCurrency}}</a></h4>
+                                    {{-- <p>{{$cart_data->product_code}} | {{$cart_data->size}}</p> --}}
+                                </td>
                                 <td class="cart_price">
-                                    <p>Ksh{{$cart_data->price}}</p>
+                                    <p>{{$cart_data->price}}</p>
                                 </td>
                                 <td class="cart_quantity">
                                     <div class="cart_quantity_button">
@@ -74,7 +79,7 @@
                                     </div>
                                 </td>
                                 <td class="cart_total">
-                                    <p class="cart_total_price">Ksh {{$cart_data->price*$cart_data->quantity}}</p>
+                                    <p class="cart_total_price"> {{$cart_data->price*$cart_data->quantity}}</p>
                                 </td>
                                 <td class="cart_delete">
                                     <a class="cart_quantity_delete" href="{{url('/cart/deleteItem',$cart_data->id)}}"><i class="fa fa-times"></i></a>

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\CustomOrder;
+use App\User;
 
 class Orders extends Model
 {
@@ -17,5 +18,10 @@ class Orders extends Model
       public function items()
     {
         return $this->hasMany(CustomOrder::class,'order_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'users_id');
     }
 }

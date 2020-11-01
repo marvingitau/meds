@@ -27,6 +27,15 @@ class CreateCartsTable extends Migration
 
             $table->integer('item_from')->nullable();
 
+             // syspro data attribs
+             $table->string('itemDesc')->nullable();
+             $table->string('itemCode')->nullable();
+             $table->float('listPrice')->nullable();
+             $table->integer('itemUnits')->nullable();
+             $table->integer('Qty')->nullable();
+            $table->string('baseCurrency')->nullable();
+
+
             $table->timestamps();
         });
     }

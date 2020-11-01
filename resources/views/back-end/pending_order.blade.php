@@ -4,7 +4,7 @@
 @section('content')
     <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Pending Staff Orders</a> </div>
+        <div id="breadcrumb"> <a href="{{ route('admin_home') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" title="Here">Pending Orders</a> </div>
     </div>
     <!--End-breadcrumbs-->
 
@@ -38,18 +38,21 @@
             @foreach ($pendingOrder as $item)
             <?php $i++; ?>
             <tr>
-                <td scope="row"> <div class="text-center0">{{ $item->id }}</div> </td>
-                <td> <div class="text-center0">{{ $item->grand_total }}</div> </td>
+                <td scope="row"> <div class="text-center">{{ $item->id }}</div> </td>
+                <td> <div class="text-center">{{ $item->grand_total }}</div> </td>
                 <td class="<?php echo $item->order_verify; ?>"> <div class="text-center ">Pending</div>  </td>
 
                 <td>
-                    <a class=" btn btn-info"
-                    role="button" href="{{ route('view_order',$item->id)}}">
-                            <span class="glyphicon glyphicon-edit"></span> view
-                    </a>
-                    <button rel="{{$item->id}}" rel1="delete_order" class="btn btn-danger btn-mini deleteRecord">
-                        <span class="glyphicon glyphicon-trash"></span> Delete
-                    </button></td>
+                    <div class="text-center">
+                        <a class=" btn btn-info"
+                        role="button" href="{{ route('view_order',$item->id)}}">
+                                <span class="glyphicon glyphicon-edit"></span> view
+                        </a>
+                        <button rel="{{$item->id}}" rel1="delete_order" class="btn btn-danger btn-mini deleteRecord">
+                            <span class="glyphicon glyphicon-trash"></span> Delete
+                        </button>
+                    </div>
+                   </td>
                 </td>
             </tr>
 
@@ -106,7 +109,7 @@
                     buttonsStyling:false,
                     reverseButtons:true
                 },function () {
-                    window.location.href="/admin/"+deleteFunction+"/"+id;
+                    window.location.href="/admin/admin_"+deleteFunction+"/"+id;
                 });
             });
 

@@ -22,6 +22,12 @@
         <li {{$menu_active==8? ' class=active':''}}><a href="{{route('complain_list')}}"><i class="icon icon-home"></i> <span>Complains</span></a> </li>
         <li {{$menu_active==9? ' class=active':''}}><a href="{{route('create.subadmin')}}"><i class="icon icon-home"></i> <span>Create SubAdmins</span></a> </li>
 
+        {{-- <li class="submenu  open {{$menu_active==10? ' active open':''}}"> <a href="#"><i class="icon icon-th-list"></i> <span>Settings</span></a>
+            <ul>
+            <li><a href="{{ url('/admin/product/create') }}">History</a></li>
+            <li><a href="{{ route('product.index') }}">Currency</a></li>
+            </ul>
+        </li> --}}
 
     </ul>
 </div>

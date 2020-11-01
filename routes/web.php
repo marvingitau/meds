@@ -16,6 +16,7 @@ Auth::routes();
 
 
 /* FrontEnd Location */
+
 Route::get('/','IndexController@index');
 Route::any ( '/search',  'IndexController@search');
 Route::get('/list-products','IndexController@shop');
@@ -33,6 +34,8 @@ Route::get('/get-product-attr','IndexController@getAttrs');
 
 // Simple Regitration/Login
 
+
+
 Route::get('/learning-institutions','UsersController@learninginstitute');
 Route::get('/faith-based-institution','UsersController@faithinstituion');
 Route::get('/government-institution','UsersController@governmentinstitute');
@@ -41,6 +44,27 @@ Route::get('/private-institution','UsersController@privateinstitute');
 Route::get('/prequalification','UsersController@prequalification');
 
 Route::post('/register_user','UsersController@register')->name('user.register');
+
+
+// Route::group(['prefix'=>'{language}'],function(){
+//     Route::get('/','IndexController@index');
+//     Route::any ( '/search',  'IndexController@search');
+//     Route::get('/list-products','IndexController@shop');
+//     Route::get('/cat/{id}/','IndexController@listByCat')->name('lang_cats');
+//     Route::get('/product-detail/{id}/','IndexController@detialpro');
+//     ///// get Attribute ////////////
+//     Route::get('/get-product-attr','IndexController@getAttrs');
+
+//     Route::get('/learning-institutions','UsersController@learninginstitute');
+//     Route::get('/faith-based-institution','UsersController@faithinstituion');
+//     Route::get('/government-institution','UsersController@governmentinstitute');
+//     Route::get('/ngo','UsersController@ngoinstitute');
+//     Route::get('/private-institution','UsersController@privateinstitute');
+//     Route::get('/prequalification','UsersController@prequalification');
+
+//     Route::post('/register_user','UsersController@register')->name('user.register');
+// });
+
 
 Route::get('/user/verify/{token}', 'UsersController@verifyUser'); //
 
@@ -116,7 +140,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function (){
     Route::get('/view_order/{id}', 'AdminController@viu_order')->name('view_order');//order to approve
     Route::get('/view_app_order/{id}', 'AdminController@viu_app_order')->name('view_approved_order');//order to viu
     Route::get('/approving_order/{id}', 'AdminController@aproving_order')->name('approving_order');
-    Route::get('/delete_order/{id}', 'AdminController@order_destroy')->name('delete_order');
+    Route::get('/admin_delete_order/{id}', 'AdminController@order_destroy')->name('delete_order');
 
 
     Route::post('/update_client/{id}','AdminController@updte_client')->name('update_client');

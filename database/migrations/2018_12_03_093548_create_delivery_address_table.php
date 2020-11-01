@@ -24,6 +24,14 @@ class CreateDeliveryAddressTable extends Migration
             $table->string('country');
             $table->string('buildingname');
             $table->string('phone_no');
+
+            $table->string('soldToAddr1')->nullable();
+            $table->string('soldToAddr2')->nullable();
+            $table->string('soldToAddr3')->nullable();
+            $table->string('ShipToAddr1')->nullable();
+            $table->string('ShipToAddr2')->nullable();
+            $table->string('ShipToAddr3')->nullable();
+
             $table->timestamps();
         });
     }

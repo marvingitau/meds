@@ -164,6 +164,29 @@
                                                 <input type="hidden" name="product_code" value="NA">
                                                 <input type="hidden" name="product_color" value="NA">
                                                 <input type="hidden" name="size" value="0">
+
+                                                <?php
+                                                foreach ($product->Pricing as $key => $value) {
+                                                    echo($value->Currency);
+                                                    ?>
+                                                     <input type="hidden" name="baseCurrency" value="{{$value->Currency}}" id="baseCurrency">
+                                                    <?php
+                                                } ?>
+                                                <input type="hidden" name="itemDesc" value="{{$product->Description}}">
+                                                <input type="hidden" name="itemCode" value="{{$product->ProductCode}}">
+                                                <?php
+                                                foreach ($product->Pricing as $key => $value) {
+                                                    ?>
+                                                    <input type="hidden" name="listPrice" value="{{$value->SellingPrice}}">
+
+                                                    <?php
+
+
+                                                } ?>
+                                                <input type="hidden" name="itemUnits" value="EA">
+                                                <input type="hidden" name="Qty" value="" id="Qty">
+
+
                                                 {{-- <input type="hidden" name="price" value="{{$product->price}}" id="dynamicPriceInput"> --}}
                                                 <?php
                                                 foreach ($product->Pricing as $key => $value) {
@@ -175,7 +198,7 @@
                                                 } ?>
                                                 <label for=""></label>
                                                 <input type="number"
-                                                class="form-control w-25 mr-aut" name="quantity" id="" aria-describedby="helpId" placeholder="Quantity" min="1">
+                                                class="form-control w-25 mr-aut" name="quantity" id="quantity" aria-describedby="helpId" placeholder="Quantity" min="1">
 
 
                                                 <button type="submit" class="btn btn-primary btn-mini add-cart-btn mr-auto">Add to Cart <i class="fa fa-shopping-cart icon-cl"></i></button>
@@ -235,6 +258,14 @@
 <script src="{{ asset('public/js/jquery.peity.min.js')}}"></script>
 <script src="{{ asset('public/js/bootstrap-wysihtml5.js')}}"></script>
 <script>
+    document.getElementById("quantity").oninput = () => {
+    const quantity = document.getElementById('quantity');
+    const qty = document.getElementById('Qty');
+
+    // Trying to insert val into qty.
+    qty.value = quantity.value;
+    };
+
 	$('.textarea_editor').wysihtml5();
     $('#d').select2();
             // datatable

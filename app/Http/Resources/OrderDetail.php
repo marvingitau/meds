@@ -18,15 +18,22 @@ class OrderDetail extends Resource
 
         return [
 
-            'order_id' => $this->id,
-            'from'=> $this->name,
-            'price'=> $this->grand_total,
-            'city' => $this->city,
-            'country' =>$this->country,
-            'P.OBox' =>$this->postal_address,
+            'OrderNo' => $this->id,
+            'OrderID' => $this->id,
+            'baseCurrency' => 'KSH',
+            'discountPercent'=>0,
+            'totalAmount'=> $this->grand_total,
+            'discountTotal'=>0,
+            'customerCode'=>$this->user->CustomerCode,
+            'taxPlan' => 'VAT',
+            'ExchangeRate'=>0,
+            // 'from'=> $this->name,
+            // 'city' => $this->city,
+            // 'country' =>$this->country,
+            // 'P.OBox' =>$this->postal_address,
 
 
-            'items'=>$this->items
+            'OrderItems'=>$this->items
 
         ];
     }

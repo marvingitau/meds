@@ -80,6 +80,34 @@
                                 </div>
 
 
+                                <div class="form-group {{$errors->has('soldToAddr1')?'has-error':''}}">
+                                    <input type="text" class="form-control" name="soldToAddr1" value="{{$addr_data->soldToAddr1}}" id="soldToAddr1" placeholder="Sold To Address1">
+                                    <span class="text-danger">{{$errors->first('soldToAddr1')}}</span>
+                                </div>
+                                <div class="form-group {{$errors->has('soldToAddr2')?'has-error':''}}">
+                                    <input type="text" class="form-control" name="soldToAddr2" value="{{$addr_data->soldToAddr2}}" id="soldToAddr2" placeholder="Sold To Address2">
+                                    <span class="text-danger">{{$errors->first('soldToAddr2')}}</span>
+                                </div>
+                                <div class="form-group {{$errors->has('soldToAddr3')?'has-error':''}}">
+                                    <input type="text" class="form-control" name="soldToAddr3" value="{{$addr_data->soldToAddr3}}" id="soldToAddr3" placeholder="Sold To Address3">
+                                    <span class="text-danger">{{$errors->first('soldToAddr3')}}</span>
+                                </div>
+                                <div class="form-group {{$errors->has('ShipToAddr1')?'has-error':''}}">
+                                    <input type="text" class="form-control" name="ShipToAddr1" value="{{$addr_data->ShipToAddr1}}" id="ShipToAddr1" placeholder="Ship To Address1">
+                                    <span class="text-danger">{{$errors->first('ShipToAddr1')}}</span>
+                                </div>
+                                <div class="form-group {{$errors->has('ShipToAddr2')?'has-error':''}}">
+                                    <input type="text" class="form-control" name="ShipToAddr2" value="{{$addr_data->ShipToAddr2}}" id="ShipToAddr2" placeholder="Ship To Address2">
+                                    <span class="text-danger">{{$errors->first('ShipToAddr2')}}</span>
+                                </div>
+                                <div class="form-group {{$errors->has('ShipToAddr3')?'has-error':''}}">
+                                    <input type="text" class="form-control" name="ShipToAddr3" value="{{$addr_data->ShipToAddr3}}" id="ShipToAddr3" placeholder="Ship To Address3">
+                                    <span class="text-danger">{{$errors->first('ShipToAddr3')}}</span>
+                                </div>
+
+
+
+
 
 
 

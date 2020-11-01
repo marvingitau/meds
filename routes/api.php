@@ -17,8 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::group(['prefix'=>'v1','middleware'=>'client' ],function (){
+//,'middleware'=>'client'
+Route::group(['prefix'=>'v1' ],function (){
 Route::get('/clients/updated','AdminController@show_client'); // updaded client
 Route::get('/clients/onhold','AdminController@customerCreatedPayload'); //pending client
 Route::get('/order/list','AdminController@orderCreatedPayload'); //pending client

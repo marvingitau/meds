@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use Carbon\Carbon;
 
 use App\Http\Resources\UserDetail as UserResource;
 use App\Http\Resources\OrderDetail as OrderResource;
@@ -58,27 +59,67 @@ class AdminController extends Controller
 
         $data = $request->all();
         $app_usr = User::findOrFail($id);
+
         $app_usr->Terms = $data['Terms'];
         $app_usr->Branch =$data['Branch'];
         $app_usr->Salesperson = $data['Salesperson'];
         $app_usr->approved=1;
         $app_usr->save();
 
-        $url = "https://legibratest.com/demo/meds/medsAPI/api/v1/test";
+        DB::table('delivery_address')->insert(
+            [
+            'users_id'=>$app_usr->id,
+            'users_email'=>$app_usr->email,
+            'name'=>$app_usr->name,
+            'email'=>$app_usr->email,
+            'postal_address'=>$app_usr->postal_address,
+            'city'=>$app_usr->town,
+            'country'=>$app_usr->country,
+            'buildingname'=>$app_usr->buildingname,
+            'phone_no'=>$app_usr->phone_no,
+
+            'soldToAddr1'=>$data['soldToAddr1'],
+            'soldToAddr2'=>$data['soldToAddr2'],
+            'soldToAddr3'=>$data['soldToAddr3'],
+            'ShipToAddr1'=>$data['ShipToAddr1'],
+            'ShipToAddr2'=>$data['ShipToAddr2'],
+            'ShipToAddr3'=>$data['ShipToAddr3'],
+
+            ]);
+
+            $upload_data = [
+                "customerCode"=> $app_usr->id,
+                "name" => $app_usr->name,
+                "contact"=>$app_usr->doctors_name,
+                "email" => $app_usr->email,
+                "priceCode" =>  "A",
+                "customerclass"=>'NG',
+                "telephone"=> $app_usr->phone_no,
+                "soldToAddr1" => $data['soldToAddr1'],
+                'soldToAddr2'=>$data['soldToAddr2'],
+                'soldToAddr3'=>$data['soldToAddr3'],
+                'ShipToAddr1'=>$data['ShipToAddr1'],
+                'ShipToAddr2'=>$data['ShipToAddr2'],
+                'ShipToAddr3'=>$data['ShipToAddr3'],
+                "currency"=> "KSH",
+                "salesperson"=> $data['Salesperson'],
+                "branch"=> $data['Branch'],
+                "arStatementNo" =>0,
+                "termsCode"=> $data['Terms']
+            ];
+
+            // dd($upload_data);
+
+        $url = "http://41.207.79.81:89/sysproapi/v1/customer/create";
 
 
         $client = new Client;
         $response = $client->request('POST',  $url, [
-            'form_params' => $app_usr->toArray(),'verify' => false
+            'form_params' => $upload_data,'verify' => false
         ]);
 
-        // dd($response);
-        dd( json_encode(json_decode($response->getBody(), true)) );
+        return back()->with('message',(json_decode($response->getBody(), true))['Message'] );
 
-
-        // $response = Http::post('http://41.207.79.81:89/sysproapi/v1/customer/create', $app_usr->toArray());
-        // return back()->with('message','Client Approved');
-        // dd($response->status());
     }
 
     public function view_client($id)
@@ -105,7 +146,7 @@ class AdminController extends Controller
     {
         $menu_active=6;
         // $pendingOrder = CustomOrder::where('approved', 0)->get();
-        $pendingOrder = Orders::where('order_verify', 0)->get();
+        $pendingOrder = Orders::where('order_verify', 0)->whereNull('order_type')->get();
         return view('back-end.pending_order',compact(['menu_active','pendingOrder']));
         // $menu_active=6;
         // $pendingOrder = CustomOrder::where('approved', 0)->get();
@@ -115,7 +156,7 @@ class AdminController extends Controller
     public function aprovd_order()
     {
         $menu_active=7;
-        $approvedOrder=Orders::where('order_verify', 1)->where('order_verify', 1)->get();
+        $approvedOrder=Orders::where('order_verify', 1)->whereNull('order_type')->get();
 
 
         return view('back-end.approved_order',compact(['menu_active','approvedOrder']));
@@ -140,7 +181,7 @@ class AdminController extends Controller
 
     public function aproving_order($id)
     {
-
+        $aux_id = $id;
         $approvingItems = Orders::where('id', $id)->where('order_verify', 0)->get();
 
         foreach ( $approvingItems as $key => $value ) {
@@ -151,7 +192,7 @@ class AdminController extends Controller
                     $recOd=CustomOrder::where('id', $id)->where('approved', 0)->get();
 
                     foreach ($recOd as $key => $va) {
-                       $va->approved = 1;
+                       $va->approved = 0;
                        $va->save();
                     }
                 }
@@ -160,12 +201,43 @@ class AdminController extends Controller
 
         }
 
-
         foreach ($approvingItems as $key => $value) {
-           $value->order_verify= 1;
+           $value->order_verify= 0;
            $value->save();
         }
-        return back()->with('message','Order Approved');
+        // dd(OrderResource::collection($approvingItems)) ;
+
+        $Order = Orders::findOrFail($aux_id);
+
+        $approv_order_data = [
+
+            'OrderNo' => $Order->id,
+            'OrderID' => $Order->id,
+            'baseCurrency' => 'KSH',
+            'discountPercent'=>0,
+            'totalAmount'=> $Order->grand_total,
+            'discountTotal'=>0,
+            'customerCode'=>$Order->user->CustomerCode,
+            'taxPlan' => 'VAT',
+            'ExchangeRate'=>0,
+
+
+            'OrderItems'=>$Order->items->toArray(),
+
+        ];
+
+        dd(json_encode($approv_order_data));
+
+        $url = "http://41.207.79.81:89/sysproapi/v1/order/create";
+
+
+        $client = new Client;
+        $response = $client->request('POST',  $url, [
+            'form_params' => $approv_order_data,'verify' => false
+        ]);
+
+        return back()->with('message',(json_decode($response->getBody(), true))['Message'] );
+        // return back()->with('message','Order Approved');
 
     }
 
@@ -173,6 +245,7 @@ class AdminController extends Controller
  public function order_destroy($id)
  {
 
+    dd(Carbon::now()->toDateTimeString());
      $delete = Orders::findOrFail($id);
      $delete->delete();
      return back()->with('message','Delete Success!');
@@ -281,7 +354,8 @@ class AdminController extends Controller
 
     public function orderCreatedPayload()
     {
-        $Order = Orders::where('order_verify',0)->get();
+        $Order = Orders::where('order_verify',0)->orWhere('progress_status_ac',4)->get();
+
         return OrderResource::collection($Order);
 
     }
@@ -308,6 +382,7 @@ class AdminController extends Controller
         ]);
         $data = $request->all();
         $data['password']=Hash::make($data['password']);
+        $data['approved'] = 1;
         $userID=User::create($data);
         return back()->with('message','Special Administrator created.');
 

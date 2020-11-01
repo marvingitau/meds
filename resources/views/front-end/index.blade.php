@@ -37,7 +37,7 @@
                             @endif
 
 
-                        <h2 class="title text-center" style="padding-top:4rem;">Features Items</h2>
+                        <h2 class="title text-center" style="padding-top:4rem;">{{ App::getLocale() }}</h2>
                         <div class="row">
                             @foreach($products as $product)
                                    <?php  //var_dump($product) ?>

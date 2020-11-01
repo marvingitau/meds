@@ -9,7 +9,21 @@
 
     @if(Session::has('message'))
     <div class="alert alert-success text-center" role="alert">
-        <strong></strong>{{Session::get('message')}}
+
+        <?php
+        $xml=simplexml_load_string(Session::get('message')) or die("Error: Cannot create object");
+try {
+    echo " <br> Error: ".$xml->item[0]->customer[0]->ErrorDescription."<br>";
+echo " customerCode:".$xml->item[0]->key[0]->customer."<br>";
+echo "RecordsRead: ".$xml->StatusOfItems[0]->RecordsRead."<br>";
+echo "RecordsInvalid: ".$xml->StatusOfItems[0]->RecordsInvalid."<br>";
+} catch (\Throwable $th) {
+    echo " <br>  customerCode:".$xml->item[0]->key[0]->customer."<br>";
+echo "RecordsRead: ".$xml->StatusOfItems[0]->RecordsRead."<br>";
+echo "RecordsInvalid: ".$xml->StatusOfItems[0]->RecordsInvalid."<br>";
+}
+
+        ?>
     </div>
    @endif
 
@@ -52,6 +66,62 @@
                                 </div>
                                 </td>
 
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="">Sold To Address1:</label>
+                                        <input type="text"
+                                            class="form-control form-control-sm" name="soldToAddr1" id="soldToAddr1" aria-describedby="helpId" placeholder="" required>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="">Sold To Address2:</label>
+                                        <input type="text"
+                                            class="form-control form-control-sm" name="soldToAddr2" id="soldToAddr2" aria-describedby="helpId" placeholder="" required>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="">Sold To Address3:</label>
+                                        <input type="text"
+                                            class="form-control form-control-sm" name="soldToAddr3" id="soldToAddr3" aria-describedby="helpId" placeholder="" required>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="">Ship To Address1:</label>
+                                        <input type="text"
+                                            class="form-control form-control-sm" name="ShipToAddr1" id="ShipToAddr1" aria-describedby="helpId" placeholder="" required>
+
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="">Ship To Address2:</label>
+                                        <input type="text"
+                                            class="form-control form-control-sm" name="ShipToAddr2" id="ShipToAddr2" aria-describedby="helpId" placeholder="" required>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="">Ship To Address3:</label>
+                                        <input type="text"
+                                            class="form-control form-control-sm" name="ShipToAddr3" id="ShipToAddr3" aria-describedby="helpId" placeholder="" required>
+
+                                    </div>
+
+                                </td>
                             </tr>
                             {{-- <td><span style="padding-right:3px;">Client Type: </span>{{ $client_data->form_title }}</td> --}}
 

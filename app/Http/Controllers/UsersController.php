@@ -62,7 +62,7 @@ class UsersController extends Controller
         $menu_active=16;
         $id= auth()->user()->id;
 
-        $allOrders= Orders::all();
+        $allOrders= Orders::where('users_id',$id)->get();
 
 
         return view('back-end.Client.checkout.ord_review',compact(['menu_active','allOrders']));
