@@ -13,98 +13,6 @@ class IndexController extends Controller
 {
     public function index(){
 
-$url = 'http://41.207.79.81:89/sysproapi/v1/product/list/1.1/';
-//  $url = 'http://dummy.restapiexample.com/api/v1/employees';
-
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_PORT, 89);
-curl_setopt($ch, CURLOPT_TIMEOUT, 4000);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, True);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
-$report=curl_getinfo($ch);
-// print_r($report);
-$result = curl_exec($ch);
-curl_close($ch);
-// print_r($result);
-
-
-//not working
-        // $url = 'http://41.207.79.81:89/sysproapi/v1/product/list/1.1/';
-        // $curl = curl_init();
-        // curl_setopt($curl, CURLOPT_URL, $url);
-        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, 0);
-        // curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-        // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-        // curl_setopt($curl, CURLOPT_PORT, [89]);
-        // curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.16) Gecko/20110319 Firefox/3.6.16");
-        // $curlData = curl_exec($curl);
-        // echo 'curl_getinfo: ';
-        // echo "<pre>";
-        // print_r(curl_getinfo($curl));
-        // echo "</pre>";
-        // if (curl_errno($curl)) {
-        //     echo 'Error: ' . curl_error($curl);
-        // }
-        // curl_close($curl);
-        // echo $curlData;
-
-
-    //     // WORKED
-    // $url = "http://41.207.79.81:89/sysproapi/v1/product/list/1.1/";
-    // $ch = curl_init();
-    // curl_setopt($ch, CURLOPT_URL, $url);
-    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
-    // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-    // curl_setopt($ch, CURLOPT_VERBOSE, true);
-    // $verbose = fopen('php://temp', 'w+');
-    // curl_setopt($ch, CURLOPT_STDERR, $verbose);
-
-    // $result = curl_exec($ch);
-
-    // curl_close($ch);
-
-    // var_dump(json_decode($result));
-
-
-
-
-
-        // $curl = curl_init();
-        // $input = array(1.1, 10, 17.7, 5.1);
-        // $rand_keys=array_rand($input,1);
-
-        // $id =$input[$rand_keys];
-
-        // curl_setopt_array($curl, array(
-        //     CURLOPT_URL => "http://41.207.79.81:89/sysproapi/v1/product/list/1.1/",
-        //     CURLOPT_RETURNTRANSFER => true,
-        //     CURLOPT_ENCODING => "",
-        //     CURLOPT_TIMEOUT => 30000,
-        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //     CURLOPT_CUSTOMREQUEST => "GET",
-        //     CURLOPT_HTTPHEADER => array(
-        //         'Content-Type: application/json',
-        //     ),
-        // ));
-        // $response = curl_exec($curl);
-        // $err = curl_error($curl);
-        // curl_close($curl);
-
-        // if ($err) {
-        //     echo "cURL Error #:" . $err;
-        // } else {
-        //     $products = (json_decode($response));
-        //     return view('front-end.index',compact('products'));
-        // }
-
-
-
-
-
-
-
         $input = array(1.1, 10, 17.7, 5.1);
         $rand_keys=array_rand($input,1);
 
@@ -119,11 +27,9 @@ curl_close($ch);
             dd('err'.$th);
         }
 
-        // dd($response->getContents());
 
-        // $products=json_decode($result);
         $products=json_decode($response->getContents());
-        // $products =Products::all();
+
         return view('front-end.index',compact('products'));
     }
 
