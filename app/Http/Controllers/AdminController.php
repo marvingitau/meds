@@ -480,7 +480,7 @@ class AdminController extends Controller
     public function acindex()
     {
         $menu_active=6;
-        $pendingOrder = Orders::whereNull('progress_status_ac')->whereNotNull('progress_status_whmgr')->get();
+        $pendingOrder = Orders::whereNull('progress_status_ac')->whereNotNull('progress_status_whmgr')->where('order_type','!=',99)->get();
         return view('back-end.OtherAdmins.Accounts.Index',compact(['menu_active','pendingOrder']));
     }
     public function acViewStafforder($id)
