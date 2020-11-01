@@ -223,7 +223,7 @@ class StaffController extends Controller
 
         // $user = auth()->user()->form_title;
         // if($user == "private institution"){
-            $u_id = "A";
+            $u_id = "A"; //price ID
         // }elseif($user == "faithbased institution"){
         //     $u_id = "A";
         // }else{

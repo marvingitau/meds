@@ -152,16 +152,27 @@ class UsersController extends Controller
 
 
         $user = auth()->user()->form_title;
+        // if($user == "private institution"){
+        //     $u_id = "PR";
+        // }elseif($user == "faithbased institution"){
+        //     $u_id = "OH";
+        // }elseif($user =="government institution"){
+        //     $u_id = "OH";
+        // }elseif($user =="ngo"){
+        //     $u_id = "NG";
+        // }elseif($user =="learning institutions"){
+        //     $u_id = "LN";
+        // }
         if($user == "private institution"){
-            $u_id = "PR";
+            $u_id = "N"; //N is price code
         }elseif($user == "faithbased institution"){
-            $u_id = "OH";
+            $u_id = "N";
         }elseif($user =="government institution"){
-            $u_id = "OH";
+            $u_id = "N";
         }elseif($user =="ngo"){
-            $u_id = "NG";
+            $u_id = "N";
         }elseif($user =="learning institutions"){
-            $u_id = "LN";
+            $u_id = "N";
         }
 
         // product category  id
@@ -441,6 +452,7 @@ class UsersController extends Controller
     }
 
     public function login(Request $request){
+
         $input_data=$request->all();
         if(Auth::attempt(['email'=>$input_data['email'],'password'=>$input_data['password']])){
             Session::put('frontSession',$input_data['email']);
