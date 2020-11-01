@@ -23,8 +23,13 @@ class IndexController extends Controller
             $request = $client->get('http://41.207.79.81:89/sysproapi/v1/product/list/'.$id.'/', ['verify' => false]);
             $response = $request->getBody();
 
-        } catch (\Throwable $th) {
-            dd('err'.$th);
+        } catch (\GuzzleHttp\Exception\ConnectException $th) {
+
+            $hd ="The connection has timed out";
+
+            $issue="The server at 41.207.79.81 is taking too long to respond.";
+
+            return view('front-end.error',compact(['hd','issue']));
         }
 
 
