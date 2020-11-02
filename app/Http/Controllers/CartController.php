@@ -29,7 +29,17 @@ class CartController extends Controller
         $inputToCart=$request->all();
         Session::forget('discount_amount_price');
         Session::forget('coupon_code');
-        if($inputToCart['size']==""){
+
+        $user_id = auth()->user()->id;
+        $user_id = auth()->user()->id;
+        $tblValue = DB::table('delivery_address')->where('users_id',$user_id)
+        ->whereNotNull('soldToAddr1')->whereNotNull('soldToAddr2')->whereNotNull('soldToAddr3')
+        ->whereNotNull('ShipToAddr1')->whereNotNull('ShipToAddr2')->whereNotNull('ShipToAddr3')
+        ->count();
+         if($tblValue == 0){
+            return back()->with('message','wait your account is being verified');
+        }else{
+            if($inputToCart['size']==""){
             return back()->with('message','Please select Quantity');
         }else{
 
@@ -64,6 +74,7 @@ class CartController extends Controller
             }else{
                 return redirect()->to('client_products_list')->with('message','Stock is not Available!');
             }
+        }
         }
     }
     public function deleteItem($id=null){
