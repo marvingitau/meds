@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('public/css/bootstrap-responsive.min.css')}}" />
     <link rel="stylesheet" href="{{ asset('public/css/colorpicker.css')}}" />
     <link rel="stylesheet" href="{{ asset('public/css/datepicker.css')}}" />
-    <link rel="stylesheet" href="{{ asset('public/css/custom.css')}}" />
+    <link rel="stylesheet" href="{{ asset('public/css/custom-staffprescrip.css')}}" />
     <link rel="stylesheet" href="{{ asset('public/css/uniform.css')}}" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('public/css/matrix-style.css')}}" />
@@ -22,10 +22,16 @@
 @section('content')
     <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+    <div id="breadcrumb">
+        <a href="{{ route('staff.home')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+        <a href="{{ route('prescription.product.list')}}" title="Here" class="tip-bottom"><i class="icon-home"></i> Prescription List</a>
+
+    </div>
     </div>
     <!--End-breadcrumbs-->
 
+    <div class="widget-content" >
+        <div class="row-fluid">
 
 
     <form action="{{ url("staff/product/prescription/cat") }}" method="post" class="form-horizontal">
@@ -70,8 +76,8 @@
             {{Session::get('message')}}
         </div>
     @endif
-    <div class="widget-content" >
-        <div class="row-fluid">
+    {{-- <div class="widget-content" >
+        <div class="row-fluid"> --}}
             <div class="custom-table">
                 <div class="widget-content nopadding">
                     <table class="table table-bordered " id="data-table">

@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="{{asset('public/css/matrix-style.css')}}" />
 <link rel="stylesheet" href="{{asset('public/css/matrix-media.css')}}" />
 <link rel="stylesheet" href="{{asset('public/css/bootstrap-wysihtml5.css')}}" />
-<link rel="stylesheet" href="{{asset('public/css/custom.css')}}" />
+<link rel="stylesheet" href="{{asset('public/css/custom-staffdb.css')}}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
@@ -21,8 +21,8 @@
 
 @section('content')
     <!--breadcrumbs-->
-    <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Staff</a></div>
+    <div id="content-header text-center">
+    <div id="breadcrumb"> <a href="{{ route('staff.home')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Staff</a></div>
     </div>
     <!--End-breadcrumbs-->
 
@@ -30,9 +30,9 @@
 
     <div class="widget-content" >
         <div class="row-fluid">
-            <h5>Order Progress</h5>
+            <h4 class="text-center">Order Progress</h4>
 
-        <div class="hex-grid__list">
+        {{-- <div class="hex-grid__list">
 
                     <div class="hex-grid__item item1">
                         <a href="{{ route('viewOrderInWhMgr') }}" style="color:unset; text-decoration:none;">
@@ -47,7 +47,7 @@
 
                 <div class="hex-grid__item item2">
 
-                    {{-- <h4 class="text-center">Orders in Human Resource</h4> --}}
+
                 </div>
                 <div class="hex-grid__item item3">
 
@@ -91,7 +91,42 @@
                 </div>
 
 
+        </div> --}}
+
+        <div class="progressnar-container">
+            <h4 class="order-no">Order: 23</h4>
+            <ul class="progressbar">
+                <li class="active">
+                    <a href="{{ route('viewOrderInWhMgr') }}" style="color:unset; text-decoration:none;">
+                     Order in Warehouse Manager <br>
+                     <i class="fa fa-building icon"></i>
+                    </a>
+
+                </li>
+                <li class="active">
+                    <a href="{{ route('viewOrderInHR') }}" style="color:unset; text-decoration:none;">
+                     Orders in Human Resource <br>
+                     <i class="fa fa-users icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('viewOrderInAc') }}" style="color:unset; text-decoration:none;">
+                      Orders in Accounts <br>
+                      <i class="fa fa-table icon"></i>
+
+                </li>
+                <li>
+                    <a href="{{ route('viewOrderInDispatch') }}" style="color:unset; text-decoration:none;">
+                       Orders in Dispatch<br>
+                       <i class="fa fa-truck icon"></i>
+
+
+                    </a>
+
+                </li>
+            </ul>
         </div>
+
 
 
         </div>

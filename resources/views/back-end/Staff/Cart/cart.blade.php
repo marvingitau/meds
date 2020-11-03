@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('public/css/bootstrap-responsive.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/css/colorpicker.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/css/datepicker.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/css/custom.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/css/custom-staffprescrip.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/css/uniform.css') }}" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('public/css/matrix-style.css') }}" />
@@ -21,10 +21,12 @@
 @endsection
 @section('content')
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-            <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Cart</a>
+    <div id="breadcrumb"> <a href="{{ route('staff.home')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+            <a href="{{ route('view.cart')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Cart</a>
         </div>
     </div>
+    {{-- <div class="widget-content" >
+        <div class="row-fluid"> --}}
     <section id="cart_items ">
         <div class="container">
             <div class="" style="">
@@ -34,10 +36,10 @@
                 </div>
             @endif
             <div class="table-responsive cart_info">
-                <table class="table table-condensed custom_carts">
+                <table class="table table-bordered table-condensed custom_carts ">
                     <thead>
                     <tr class="cart_menu">
-                        {{-- <td class="image">Item</td> --}}
+                        <td class="no">No</td>
                         <td class="description">Name</td>
                         <td>From</td>
                         <td class="price">Price</td>
@@ -47,12 +49,11 @@
                     </tr>
                     </thead>
                     <tbody>
+                        <?php $i=1; ?>
                         @foreach($cart_datas as $cart_data)
-                            <?php
-                                // $image_products=DB::table('products')->select('image')->where('id',$cart_data->products_id)->get();
-                            ?>
-                            <tr>
 
+                            <tr>
+                                <td class="no"><?php echo $i++; ?></td>
                                 <td class="cart_description">
                                     <h6><a href="">{{$cart_data->product_name}}</a></h6>
 
@@ -69,10 +70,10 @@
                                 </td>
                                 <td class="cart_quantity">
                                     <div class="cart_quantity_button">
-                                        <a class="cart_quantity_up" href="{{route('update',[$cart_data->id,'1'])}}" style="font-size:1rem;"> + </a>
+                                        <a class="cart_quantity_up" href="{{route('update',[$cart_data->id,'1'])}}" style="font-size:1rem;"> <i class="fa fa-plus"></i> </a>
                                         <input class="cart_quantity_input" type="text" name="quantity" value="{{$cart_data->quantity}}"  disabled autocomplete="off" size="2">
                                         @if($cart_data->quantity>1)
-                                            <a class="cart_quantity_down" href="{{route('update',[$cart_data->id,'-1'])}}" style="font-size:1rem;"> - </a>
+                                            <a class="cart_quantity_down" href="{{route('update',[$cart_data->id,'-1'])}}" style="font-size:1rem;"> <i class="fa fa-minus"></i> </a>
                                         @endif
                                     </div>
                                 </td>
@@ -80,7 +81,7 @@
                                     <p class="cart_total_price">Ksh {{$cart_data->price*$cart_data->quantity}}</p>
                                 </td>
                                 <td class="cart_delete">
-                                    <a class="cart_quantity_delete" href="{{route('delete',$cart_data->id)}}"><i class="fa fa-times"></i></a>
+                                    <a class="cart_quantity_delete" href="{{route('delete',$cart_data->id)}}"><i class="fa fa-times text-danger"></i></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -90,37 +91,75 @@
             </div>
         </div>
     </section> <!--/#cart_items-->
-
+    <div class="container" class="text-left">
     <section id="do_action">
-        <div class="container">
-            <div class="heading">
-                <h3>Checkout Price</h3>
 
-            </div>
-            <div class="row">
 
-                <div class="col-sm-6">
-                    @if(Session::has('message_apply_sucess'))
-                        <div class="alert alert-success text-center" role="alert">
-                            {{Session::get('message_apply_sucess')}}
-                        </div>
-                    @endif
-                    <div class="total_area">
-                        <ul>
-                            @if(Session::has('discount_amount_price'))
-                                <li>Sub Total <span>$ {{$total_price}}</span></li>
-                                <li>Coupon Discount (Code : {{Session::get('coupon_code')}}) <span>$ {{Session::get('discount_amount_price')}}</span></li>
-                                <li>Total <span>Ksh {{$total_price-Session::get('discount_amount_price')}}</span></li>
-                            @else
-                                <li>Total <span>Ksh {{$total_price}}</span></li>
+            <h4 class="text-right">TOTAL</h4>
+
+            <table class="table table-bordered table-condensed custom_carts ">
+
+
+
+                    <tr>
+
+                            <tr>
+                                <td> <b>Sub-Total</b></td>
+                                <td>Ksh2345 </td>
+                            </tr>
+
+                            <tr>
+                                <td><b>VAT</b> </td>
+                                <td>16%</td>
+                            </tr>
+
+
+                            <tr>
+                                <td><b>Total</b></td>
+                                <td>Ksh 23456  </td>
+                            </tr>
+
+
+                    </tr>
+
+
+
+
+            </table>
+
+
+
+                    {{-- <div class="tr">
+
+                        <div class="td">
+                            @if(Session::has('message_apply_sucess'))
+                                <div class="alert alert-success text-center" role="alert">
+                                    {{Session::get('message_apply_sucess')}}
+                                </div>
                             @endif
-                        </ul>
-                        <div style="margin-left: 20px;"><a class="btn btn-default check_out" href="{{route('checkout.view')}}">Check Out</a></div>
+                            <div class="total_area">
+                                <ul>
+                                    @if(Session::has('discount_amount_price'))
+                                        <li>Sub Total <span>$ {{$total_price}}</span></li>
+                                        <li>Coupon Discount (Code : {{Session::get('coupon_code')}}) <span>$ {{Session::get('discount_amount_price')}}</span></li>
+                                        <li>Total <span>Ksh {{$total_price-Session::get('discount_amount_price')}}</span></li>
+                                    @else
+                                        <li>Total <span>Ksh {{$total_price}}</span></li>
+                                    @endif
+                                </ul>
+                                <div style="margin-left: 20px;"><a class="btn btn-default check_out" href="{{route('checkout.view')}}">Check Out</a></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </div> --}}
+
+
+
     </section><!--/#do_action-->
+</div>
+        {{-- </div>
+    </div> --}}
+
 @endsection
 
 

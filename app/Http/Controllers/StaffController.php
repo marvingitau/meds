@@ -51,7 +51,8 @@ class StaffController extends Controller
 
         $id= auth()->user()->id;
 
-        $whmgrCount= Orders::where('users_id',$id)->whereNotNull('order_type')->whereNotNull('progress_status_whmgr')->whereNotNull('progress_status_hr')->whereNotNull('progress_status_ac')->count();
+        $whmgrCount= Orders::where('users_id',$id)->whereNotNull('order_type')->whereNull('progress_status_whmgr')->whereNull('progress_status_hr')->whereNull('progress_status_ac')->count();
+
         $hrCount  = Orders::where('users_id',$id)->where('order_type',1)->whereNotNull('progress_status_whmgr')->whereNull('progress_status_ac')->count();
         $acCount  = Orders::where('users_id',$id)->where('order_verify',1)->whereNotNull('order_type')->whereNotNull('progress_status_whmgr')->whereNull('progress_status_ac')->count();
         $dispatchedCount  = Orders::where('users_id',$id)->where('progress_status_ac',4)->count();

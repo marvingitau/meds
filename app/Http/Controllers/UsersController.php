@@ -500,7 +500,7 @@ class UsersController extends Controller
     public function login(Request $request){
 
         $input_data=$request->all();
-        if(Auth::attempt(['email'=>$input_data['email'],'password'=>$input_data['password']])){
+        if(Auth::attempt(['email'=>$input_data['email'],'password'=>$input_data['password']],$request->get('remember'))){
             Session::put('frontSession',$input_data['email']);
             Session::put('user_access','in');
              Session::put('cart_val',0);

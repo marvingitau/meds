@@ -15,8 +15,13 @@
             </ul>
           </li>
 
+        <li><a href="{{ route('usr_logout')}}"><i class="fa fa-sign-out"></i> Log Out</a></li>
+
+    </ul>
+</div>
+<div  id="user-nav2" class="navbar">
+    <ul class="nav">
         <li class=""><a title="" href="{{route('view.cart')}}"><i class="fa fa-shopping-cart"></i> <span class="text">Cart</span><span class="label label-important">{{ Session::get('cart_val') }} </span></a></li>
-                      <li><a href="{{ route('usr_logout')}}"><i class="fa fa-sign-out"></i> Log Out</a></li>
 
     </ul>
 </div>

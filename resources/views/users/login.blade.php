@@ -54,7 +54,7 @@ get_header();
 
                     <div class="d-flex">
                         <span>
-                            <input type="checkbox" class="checkbox">
+                            <input type="checkbox" name="remember" class="checkbox">
                             Keep me signed in
                         </span>
                         <button type="submit" class="btn btn-info ml-auto">Login</button>

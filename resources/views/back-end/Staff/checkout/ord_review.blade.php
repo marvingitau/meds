@@ -12,9 +12,17 @@
 <link rel="stylesheet" href="{{asset('public/css/matrix-style.css')}}" />
 <link rel="stylesheet" href="{{asset('public/css/matrix-media.css')}}" />
 <link rel="stylesheet" href="{{asset('public/css/bootstrap-wysihtml5.css')}}" />
-<link rel="stylesheet" href="{{asset('public/css/custom.css')}}" />
+<link rel="stylesheet" href="{{asset('public/css/custom-staffprescrip.css')}}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
+<style>
+    .fa.fa-shopping-cart {
+	font-size: 1.3rem;
+	padding-right: .8rem;
+	color: white;
+}
+</style>
 @endsection
 
 @section('content')
