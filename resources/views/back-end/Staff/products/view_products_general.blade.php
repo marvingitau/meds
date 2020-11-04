@@ -24,7 +24,7 @@
     <div id="content-header">
         <div id="breadcrumb">
         <a href="{{ route('staff.home')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-        <a href="{{ route('general.product.list')}}" title="Here" class="tip-bottom"><i class="icon-home"></i> Prescription List</a>
+        <a href="{{ route('general.product.list')}}" title="Here" class="tip-bottom"><i class="icon-home"></i> General List</a>
     </div>
     </div>
     <!--End-breadcrumbs-->
@@ -56,7 +56,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-default" style="padding: 0rem;
+                        <button type="submit" class="btn btn-default border-info" style="padding: 0rem;
                         margin-bottom: -1rem;
                         color:#27a9e3;">apply</button>
                     </div>

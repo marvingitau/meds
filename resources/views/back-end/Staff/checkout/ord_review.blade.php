@@ -29,7 +29,7 @@
  <!--breadcrumbs-->
     <div id="content-header">
     <div id="breadcrumb"> <a href="{{route('staff.home') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-            <a href="index.html"> <i class="icon-dashboard"></i>  Order Review </a>
+            <a href="#"> <i class="icon-dashboard"></i>  Order Review </a>
         </div>
     </div>
     <!--End-breadcrumbs-->
@@ -52,7 +52,7 @@
                                 <tr>
                                     <td scope="row"> <b>ID:</b> {{  $order->id}} </td>
                                     <td><b>Price:</b> {{  $order->grand_total}}  </td>
-                                <td  class="<?php echo $order->order_verify==='1'?'bg-success':'bg-warning'; ?>"><b>Status:</b> <?php echo $order->order_verify==='1'?'Approved':'Pending' ?></td>
+                                {{-- <td  class="<php echo $order->order_verify==='1'?'bg-success':'bg-warning'; ?>"><b>Status:</b> <php echo $order->order_verify==='1'?'Approved':'Pending' ?></td> --}}
                                 </tr>
 
 

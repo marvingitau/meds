@@ -12,16 +12,20 @@
 <link rel="stylesheet" href="{{asset('public/css/matrix-style.css')}}" />
 <link rel="stylesheet" href="{{asset('public/css/matrix-media.css')}}" />
 <link rel="stylesheet" href="{{asset('public/css/bootstrap-wysihtml5.css')}}" />
-<link rel="stylesheet" href="{{asset('public/css/custom.css')}}" />
+<link rel="stylesheet" href="{{asset('public/css/custom-staffgen.css')}}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
 
 @endsection
 
 @section('content')
  <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-            <a href="index.html"> <i class="icon-dashboard"></i>  Order Review </a>
+        <div id="breadcrumb">
+            <a href="{{ url('/')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+            <a href="" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
+            <a href=""> <i class="icon-dashboard"></i>  Order Review </a>
         </div>
     </div>
     <!--End-breadcrumbs-->

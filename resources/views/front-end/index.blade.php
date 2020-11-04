@@ -13,42 +13,53 @@
 
 
 
-                                {{-- <form action="{{ url('/search') }}" method="POST" role="search">
-                                    {{ csrf_field() }}
-                                    <div class="row">
-                                        <div class="col-md-4 offset-md-8">
-                                            <div class="input-group ">
-                                                <input type="text" class="form-control w-50" name="q"
-                                                    placeholder="Search Products"> <span class="input-group-btn">
-                                                    <button type="submit" class="btn btn-info">
-                                                        search
-                                                        <span class="glyphicon glyphicon-search"></span>
-                                                    </button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                </form> --}}
-                                @if(Session::has('message'))
+                            @if(Session::has('message'))
                                 <div class="alert alert-danger text-center" role="alert">
                                     {{Session::get('message')}}
                                 </div>
                             @endif
 
+                            <div class="jumbotron">
+                                <div class="row">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="text-right">
+                                            <ul class="cart-section ">
+                                                <li class="site-setting-client-cart" ><a href="http://legibratest.com/demo/meds/medsAPI/viewcart" style="color:unset;text-decoration:none;" class=""><i class="fa fa-shopping-cart mr-md-3 icon-cl"></i> <span class="label label-important">{{ Session::get('cart_val') }} </span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <h2 class="title text-center" style="padding-top:4rem;">{{ App::getLocale() }}</h2>
+                            </div>
+
+
+
+
+                        <h2 class="title text-center" style="padding-top:4rem;">Products</h2>
                         <div class="row">
                             @foreach($products as $product)
-                                   <?php  //var_dump($product) ?>
+
                             {{-- @if($product->category->status==1) --}}
                                 <div class="col-sm-4">
                                     <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
                                                     {{-- <a href="{{url('/product-detail',$product->id)}}"><img src="{{url('public/products/small/',$product->image)}}" alt="" /></a> --}}
-                                                    {{-- <!--<h2>Ksh {{$product->price}}</h2>--> --}}
-                                                    <p>{{$product->Description}}</p>
+                                                    <p class="my-3">{{$product->Description}}</p>
+                                                    @if(auth()->check())
+                                                    <?php
+                                                    foreach ($product->Pricing as $key => $value) {
+                                                        ?>
+                                                         <h2>Ksh {{$value->SellingPrice}}</h2>
+                                                        <?php
+
+
+                                                    } ?>
+                                                    @endif
+
+
                                                     <a href="{{url('/product-detail',$product->ProductCode)}}" class="btn btn-default add-to-cart">View Product</a>
                                                 </div>
                                             </div>

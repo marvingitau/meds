@@ -36,10 +36,11 @@ class OrdersController extends Controller
             $total_price += ($x* $y);
         }
         $billing_address=DB::table('delivery_address')->where('users_id',Auth::id())->first();
+        $total_price = $total_price + $total_price*(16/100);
 
 
 
-        return view('back-end.Client.checkout.review_order',compact('billing_address','cart_datas','total_price','menu_active'));
+        return view('back-end.Client.checkout.review_order',compact('billing_address','cart_datas','total_price','total_price','menu_active'));
     }
 
 
@@ -77,6 +78,7 @@ class OrdersController extends Controller
 
         }
 
+        // we don't need endpoint since we need admin to verify this order
 
         if($payment_method=="COD"){
             return redirect('/cod');

@@ -76,11 +76,16 @@ Route::get('/logout_user','UsersController@logout')->name('usr_logout');
 ////// Clients Authentications ///////////
 Route::group(['middleware'=>'clientlogin'],function (){
 
+    Route::get('/home','IndexController@logged_index')->name('client.products.home');
+    Route::get('/cat/{id}/','IndexController@logged_listByCat')->name('loggein.cats');
+    // Route::get('/product-detail/{id}/','IndexController@detialpro');
+
     Route::get('/client_account','UsersController@u_dashboard')->name('client.dashboard');
     Route::get('/client_products_list','UsersController@products')->name('product.list');
     Route::get('/client_profile','UsersController@u_profile')->name('client.profile');
 
-    Route::get('/order_status','UsersController@order_sttus')->name('order.status');
+    // Route::get('/order_status','UsersController@order_sttus')->name('order.status');
+    Route::get('/order_progress','UsersController@order_progrss')->name('order.progress');
     Route::get('/order_placed','UsersController@order_placed')->name('order placed');
     Route::get('/order_in_warehouse','UsersController@order_in_warehouse')->name('order.inwarehouse');
     Route::get('/order_packed','UsersController@order_packed')->name('order.packed');
@@ -96,11 +101,11 @@ Route::group(['middleware'=>'clientlogin'],function (){
 
     // Cart Section
     Route::post('/addCart','CartController@addToCart')->name('clientAddToCart');
-    Route::get('/viewcart','CartController@index');
+    Route::get('/viewcart','CartController@index')->name('clientViewCart');
     Route::get('/cart/deleteItem/{id}','CartController@deleteItem');
     Route::get('/cart/update-quantity/{id}/{quantity}','CartController@updateQuantity');
 
-    Route::get('/check-out','CheckOutController@index');
+    Route::get('/check-out','CheckOutController@index')->name('client.checkout');
     Route::post('/submit-checkout','CheckOutController@submitcheckout');
     Route::get('/order-review','OrdersController@index');
     Route::post('/submit-order','OrdersController@order');

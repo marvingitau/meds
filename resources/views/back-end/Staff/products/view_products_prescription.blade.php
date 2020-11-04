@@ -59,7 +59,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-default" style="padding: 0rem;
+                        <button type="submit" class="btn btn-default border-info" style="padding: 0rem;
                         margin-bottom: -1rem;
                         color:#27a9e3;">apply</button>
                     </div>

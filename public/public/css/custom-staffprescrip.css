@@ -78,6 +78,16 @@
     position: relative;
     left: 56%;
 }
+#do_action .btn.btn-default.check_out{
+    background-color: #164fee;
+    color:white;
+}
+
+#do_action .btn.btn-default.check_out:hover{
+    background-color:#da542e;
+    color:white;
+
+}
 
 /* Admin Dashboard */
 

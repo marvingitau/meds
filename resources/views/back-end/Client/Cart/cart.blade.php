@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="public/css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="public/css/colorpicker.css" />
     <link rel="stylesheet" href="public/css/datepicker.css" />
-    <link rel="stylesheet" href="public/css/custom.css" />
+    <link rel="stylesheet" href="public/css/custom-staffprescrip.css" />
     <link rel="stylesheet" href="public/css/uniform.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="public/css/matrix-style.css" />
@@ -21,8 +21,8 @@
 @endsection
 @section('content')
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-            <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Cart</a>
+    <div id="breadcrumb"> <a href="{{ url('/') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+            <a href="" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Cart</a>
         </div>
     </div>
     <section id="cart_items ">
@@ -82,7 +82,7 @@
                                     <p class="cart_total_price"> {{$cart_data->price*$cart_data->quantity}}</p>
                                 </td>
                                 <td class="cart_delete">
-                                    <a class="cart_quantity_delete" href="{{url('/cart/deleteItem',$cart_data->id)}}"><i class="fa fa-times"></i></a>
+                                    <a class="cart_quantity_delete" href="{{url('/cart/deleteItem',$cart_data->id)}}"><i class="fa fa-times text-danger"></i></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -94,35 +94,47 @@
     </section> <!--/#cart_items-->
 
     <section id="do_action">
-        <div class="container">
-            <div class="heading">
-                <h3>Checkout Price</h3>
 
-            </div>
-            <div class="row">
 
-                <div class="col-sm-6">
-                    @if(Session::has('message_apply_sucess'))
-                        <div class="alert alert-success text-center" role="alert">
-                            {{Session::get('message_apply_sucess')}}
-                        </div>
-                    @endif
-                    <div class="total_area">
-                        <ul>
-                            @if(Session::has('discount_amount_price'))
-                                <li>Sub Total <span>$ {{$total_price}}</span></li>
-                                <li>Coupon Discount (Code : {{Session::get('coupon_code')}}) <span>$ {{Session::get('discount_amount_price')}}</span></li>
-                                <li>Total <span>Ksh {{$total_price-Session::get('discount_amount_price')}}</span></li>
-                            @else
-                                <li>Total <span>Ksh {{$total_price}}</span></li>
-                            @endif
-                        </ul>
-                        <div style="margin-left: 20px;"><a class="btn btn-default check_out" href="{{url('/check-out')}}">Check Out</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!--/#do_action-->
+        <h4 class="text-right">TOTAL</h4>
+
+        <table class="table table-bordered table-condensed custom_carts ">
+
+
+
+                <tr>
+
+                        <tr>
+                            <td> <b>Sub-Total</b></td>
+                            <td>Ksh <b> {{$total_price}}</b></td>
+                        </tr>
+
+                        <tr>
+                            <td><b>VAT</b> </td>
+                            <td>16%</td>
+                        </tr>
+
+
+                        <tr>
+                            <td><b>Total</b></td>
+                            <td>Ksh <b>{{$plus_vat}}</b>  </td>
+                        </tr>
+
+
+                </tr>
+
+
+
+
+        </table>
+
+
+
+
+            <div style="margin-left: 15rem;"><a class="btn btn-default check_out" href="{{route('client.checkout')}}">Check Out</a></div>
+
+
+</section><!--/#do_action-->
 @endsection
 
 

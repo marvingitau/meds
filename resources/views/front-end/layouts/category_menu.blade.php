@@ -16,17 +16,34 @@
         overflow-y: scroll;
         "
     ><!--category-productsr-->
-        @if(count($categories)>0)
+        @if(auth()->check())
+            <?php if(count($categories)>0){ ?>
+            {{-- <div id="sportswear{{$category->id}}" class="panel-collapse collapse"> --}}
+                <div class="panel-body">
+                    <ul>
+                        @foreach($categories as $category)
+                            <li><a href="{{route('loggein.cats',$category->Product_class)}}">{{$category->Description}} </a></li>
+                        @endforeach
+                    </ul>
+                </div>
+            {{-- </div> --}}
+            <?php }?>
+
+        @else
+
+        <?php if(count($categories)>0){ ?>
         {{-- <div id="sportswear{{$category->id}}" class="panel-collapse collapse"> --}}
             <div class="panel-body">
                 <ul>
                     @foreach($categories as $category)
-                        <li><a href="{{route('cats',$category->Product_class)}}">{{$category->Description}} </a></li>
+                        <li><a href="{{url('cat/'.$category->Product_class.'/')}}">{{$category->Description}} </a></li>
                     @endforeach
                 </ul>
             </div>
         {{-- </div> --}}
+        <?php }?>
         @endif
+
         {{-- @foreach($categories as $category)
             <php
                $sub_categories=DB::table('product__categories')->select('id','name')->where([['parent_id',$category->id],['status',1]])->get();

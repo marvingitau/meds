@@ -93,39 +93,43 @@
 
         </div> --}}
 
-        <div class="progressnar-container">
-            <h4 class="order-no">Order: 23</h4>
-            <ul class="progressbar">
-                <li class="active">
-                    <a href="{{ route('viewOrderInWhMgr') }}" style="color:unset; text-decoration:none;">
-                     Order in Warehouse Manager <br>
-                     <i class="fa fa-building icon"></i>
-                    </a>
+        @if($currentStaffOrders)
+            @foreach ($currentStaffOrders as $currentStaffOrder)
+            <div class="progressnar-container">
+            <h4 class="order-no">Order: {{ $currentStaffOrder->id }}</h4>
+                <ul class="progressbar">
+                    <li class="<?php echo $currentStaffOrder->progress_status_whmgr == 5?'active':''; ?>">
+                        <a href="{{ route('viewOrderInWhMgr') }}" style="color:unset; text-decoration:none;" title="Orders in Warehouse Manager" class="tip-bottom">
+                         Order in Warehouse Manager <br>
+                         <i class="fa fa-building icon"></i>
+                        </a>
 
-                </li>
-                <li class="active">
-                    <a href="{{ route('viewOrderInHR') }}" style="color:unset; text-decoration:none;">
-                     Orders in Human Resource <br>
-                     <i class="fa fa-users icon"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('viewOrderInAc') }}" style="color:unset; text-decoration:none;">
-                      Orders in Accounts <br>
-                      <i class="fa fa-table icon"></i>
+                    </li>
+                    <li class="<?php echo $currentStaffOrder->progress_status_hr == 2?'active':''; ?>">
+                        <a href="{{ route('viewOrderInHR') }}" style="color:unset; text-decoration:none;" title="Orders in HR" class="tip-bottom">
+                         Orders in Human Resource <br>
+                         <i class="fa fa-users icon"></i>
+                        </a>
+                    </li>
+                    <li <?php echo $currentStaffOrder->progress_status_ac == 4?'active':''; ?>>
+                        <a href="{{ route('viewOrderInAc') }}" style="color:unset; text-decoration:none;" title="Orders in Accounts" class="tip-bottom">
+                          Orders in Accounts <br>
+                          <i class="fa fa-table icon"></i>
+                        </a>
+                    </li>
+                    <li <?php echo $currentStaffOrder->progress_status_ac == 4?'active':''; ?>>
+                        <a href="{{ route('viewOrderInDispatch') }}" style="color:unset; text-decoration:none;" title="Dispatched Orders" class="tip-bottom">
+                           Orders in Dispatch<br>
+                           <i class="fa fa-truck icon"></i>
 
-                </li>
-                <li>
-                    <a href="{{ route('viewOrderInDispatch') }}" style="color:unset; text-decoration:none;">
-                       Orders in Dispatch<br>
-                       <i class="fa fa-truck icon"></i>
 
+                        </a>
 
-                    </a>
-
-                </li>
-            </ul>
-        </div>
+                    </li>
+                </ul>
+            </div>
+            @endforeach
+        @endif
 
 
 

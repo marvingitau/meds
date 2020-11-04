@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('public/css/bootstrap-responsive.min.css')}}" />
     <link rel="stylesheet" href="{{ asset('public/css/colorpicker.css')}}" />
     <link rel="stylesheet" href="{{ asset('public/css/datepicker.css')}}" />
-    <link rel="stylesheet" href="{{ asset('public/css/custom.css')}}" />
+    <link rel="stylesheet" href="{{ asset('public/css/custom-staffprescrip.css')}}" />
     <link rel="stylesheet" href="{{ asset('public/css/uniform.css')}}" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('public/css/matrix-style.css')}}" />

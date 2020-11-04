@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="public/css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="public/css/colorpicker.css" />
     <link rel="stylesheet" href="public/css/datepicker.css" />
-    <link rel="stylesheet" href="public/css/custom.css" />
+    <link rel="stylesheet" href="public/css/custom-staffprescrip.css" />
     <link rel="stylesheet" href="public/css/uniform.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="public/css/matrix-style.css" />
@@ -23,7 +23,12 @@
 @section('content')
     <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+    <div id="breadcrumb">
+        <a href="{{ url('/') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+        <a href="{{ url('/client_account') }}" title="Go to Dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
+        <a href="{{ url('/order-review') }}" title="Here" class="tip-bottom"><i class="icon-home"></i> Review</a>
+
+    </div>
     </div>
     <!--End-breadcrumbs-->
     <div class="widget-content" >
@@ -60,7 +65,7 @@
 
 
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table table-hover table-bordered">
                                     <thead>
                                     <tr>
                                         <th>Name</th>
@@ -93,7 +98,7 @@
                                 </div>
                                 <div class="table-responsive cart_info">
                                     <table class="table table-condensed">
-                                        <thead>
+                                        <thead style="background-color: #017fff;">
                                         <tr class="cart_menu">
                                             <td class="image">Item</td>
                                             <td class="description"></td>
@@ -146,9 +151,13 @@
                                                             <td><span>$ {{$total_price-Session::get('discount_amount_price')}}</span></td>
                                                         </tr>
                                                     @else
+                                                    <tr class="billing-cost">
+                                                        <td>VAT</td>
+                                                        <td>16% </td>
+                                                    </tr>
                                                         <tr>
-                                                            <td>Total</td>
-                                                            <td><span>Ksh {{$total_price}}</span></td>
+                                                            <td> <b>Total</b> </td>
+                                                            <td><span>Ksh <b> {{$total_price}}</b></span></td>
                                                         </tr>
                                                     @endif
                                                 </table>
@@ -165,7 +174,7 @@
                                     <span>
                                     <label><input type="radio" name="payment_method" value="Paypal"> Paypal</label>
                                 </span>
-                                    <button type="submit" class="btn btn-primary" style="float: right;">Order Now</button>
+                                    <button type="submit" class="btn btn-primary mr-5" style="float: right;">Order Now</button>
                                 </div>
                             </section>
 

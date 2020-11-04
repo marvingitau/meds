@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class CartController extends Controller
 {
     public function index(){
-        $menu_active=21;
+        $menu_active=210;
         $session_id=Session::get('session_id');
         $cart_datas=Cart::where('session_id',$session_id)->get();
         $total_price=0;
@@ -21,7 +21,8 @@ class CartController extends Controller
             $y = $cart_data->quantity;
             $total_price += ($x* $y);
         }
-        return view('back-end.Client.Cart.cart',compact('cart_datas','total_price','menu_active'));
+        $plus_vat = $total_price + $total_price*(16/100);
+        return view('back-end.Client.Cart.cart',compact('cart_datas','total_price','plus_vat','menu_active'));
     }
 
 
@@ -61,7 +62,8 @@ class CartController extends Controller
                     'session_id'=>$inputToCart['session_id']
                     ])->count();
                 if($count_duplicateItems>0){
-                    return redirect()->to('client_products_list')->with('message','This Item exist already');
+                    return back()->with('message','This Item exist already');
+                    // return redirect()->to('client_products_list')->with('message','This Item exist already');
                 }else{
 
                     Cart::create($inputToCart);
@@ -69,10 +71,12 @@ class CartController extends Controller
                     $cart_count =Cart::where('session_id',$session_id)->get()->count();
 
                     Session::put('cart_val',$cart_count);
-                    return redirect()->to('client_products_list')->with('message','Added To Cart ');
+                    return back()->with('message','Added To Cart ');
+                    // return redirect()->to('client_products_list')->with('message','Added To Cart ');
                 }
             }else{
-                return redirect()->to('client_products_list')->with('message','Stock is not Available!');
+                return back()->with('message','Stock is not Available!');
+                // return redirect()->to('client_products_list')->with('message','Stock is not Available!');
             }
         }
         }

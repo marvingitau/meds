@@ -105,7 +105,7 @@
 
                             <tr>
                                 <td> <b>Sub-Total</b></td>
-                                <td>Ksh2345 </td>
+                                <td>Ksh <b> {{$total_price}}</b></td>
                             </tr>
 
                             <tr>
@@ -116,7 +116,7 @@
 
                             <tr>
                                 <td><b>Total</b></td>
-                                <td>Ksh 23456  </td>
+                                <td>Ksh <b>{{$plus_vat}}</b>  </td>
                             </tr>
 
 
@@ -129,30 +129,8 @@
 
 
 
-                    {{-- <div class="tr">
 
-                        <div class="td">
-                            @if(Session::has('message_apply_sucess'))
-                                <div class="alert alert-success text-center" role="alert">
-                                    {{Session::get('message_apply_sucess')}}
-                                </div>
-                            @endif
-                            <div class="total_area">
-                                <ul>
-                                    @if(Session::has('discount_amount_price'))
-                                        <li>Sub Total <span>$ {{$total_price}}</span></li>
-                                        <li>Coupon Discount (Code : {{Session::get('coupon_code')}}) <span>$ {{Session::get('discount_amount_price')}}</span></li>
-                                        <li>Total <span>Ksh {{$total_price-Session::get('discount_amount_price')}}</span></li>
-                                    @else
-                                        <li>Total <span>Ksh {{$total_price}}</span></li>
-                                    @endif
-                                </ul>
-                                <div style="margin-left: 20px;"><a class="btn btn-default check_out" href="{{route('checkout.view')}}">Check Out</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-
+                <div style="margin-left: 15rem;"><a class="btn btn-default check_out" href="{{route('checkout.view')}}">Check Out</a></div>
 
 
     </section><!--/#do_action-->

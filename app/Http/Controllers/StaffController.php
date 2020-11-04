@@ -51,6 +51,9 @@ class StaffController extends Controller
 
         $id= auth()->user()->id;
 
+        $currentStaffOrders = Orders::where('users_id',$id)->get(); //get all current staff order
+        // dd($currentStaffOrders);
+
         $whmgrCount= Orders::where('users_id',$id)->whereNotNull('order_type')->whereNull('progress_status_whmgr')->whereNull('progress_status_hr')->whereNull('progress_status_ac')->count();
 
         $hrCount  = Orders::where('users_id',$id)->where('order_type',1)->whereNotNull('progress_status_whmgr')->whereNull('progress_status_ac')->count();
@@ -61,7 +64,7 @@ class StaffController extends Controller
         $statement_data= CustomOrder::where('users_id',$id)->where('approved',1)->take(-10)->get();
         return view('back-end.Staff.index',compact(['menu_active','debit','credit','current','thirty',
         'sixty','ninety','onetwenty',
-        'invoice_data','statement_data','whmgrCount','hrCount','acCount','dispatchedCount']));
+        'invoice_data','statement_data','whmgrCount','hrCount','acCount','dispatchedCount','currentStaffOrders']));
     }
 
 
@@ -324,7 +327,8 @@ class StaffController extends Controller
             $y = $cart_data->quantity;
             $total_price += ($x* $y);
         }
-        return view('back-end.Staff.Cart.cart',compact('cart_datas','total_price','menu_active'));
+        $plus_vat = $total_price + $total_price*(16/100);
+        return view('back-end.Staff.Cart.cart',compact('cart_datas','total_price','plus_vat','menu_active'));
     }
 
     public function viewcheckout(){
@@ -389,21 +393,36 @@ class StaffController extends Controller
      $session_id=Session::get('session_id');
      $cart_datas=Cart::where('session_id',$session_id)->get();
      $total_price=0;
+     $require_supporting_docs=0; //requires doctors permission for prescription default(no)
+
      foreach ($cart_datas as $cart_data){
          // dd(gettype($cart_data->price));
          $x =$cart_data->price;
          $y = $cart_data->quantity;
          $total_price += ($x* $y);
+
+         if($cart_data->item_from == 2){
+            $require_supporting_docs=1;
+        }
      }
      $billing_address=DB::table('delivery_address')->where('users_id',Auth::id())->first();
+     $total_price = $total_price + $total_price*(16/100);
 
 
 
-     return view('back-end.Staff.checkout.review_order',compact('billing_address','cart_datas','total_price','menu_active'));
+
+     return view('back-end.Staff.checkout.review_order',compact('billing_address','cart_datas','total_price','require_supporting_docs','menu_active'));
     }
 
     public function order(Request $request){
         $require_hr= 0;
+        // $this->validate($request,[
+        //     'supporting_documents'=>'mimes:pdf,png,jpg,jpeg|max:1000'
+        // ]);
+        request()->validate([
+            'supporting_documents'  => 'max:1048',
+        ]);
+
 
         $input_data=$request->all();
 
@@ -444,6 +463,10 @@ class StaffController extends Controller
             $id=CustomOrder::create($value);
 
         }
+
+        // Staff Order push API endpoint
+
+        dd($input_data);
 
 
         if($payment_method=="COD"){

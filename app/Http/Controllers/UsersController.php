@@ -76,6 +76,14 @@ class UsersController extends Controller
         // return view('back-end.Client.checkout.ord_review',compact(['menu_active','invoice_pending','invoice_approved']));
     }
 
+    public function order_progrss()
+    {
+        $menu_active=16;
+        $id= auth()->user()->id;
+        $currentClientOrders = Orders::where('users_id',$id)->paginate(5); //get all current client order
+        return view('back-end.Client.orderStatus',compact(['menu_active','currentClientOrders']));
+    }
+
     public function order_placed()
     {
         $menu_active=18;
@@ -504,7 +512,7 @@ class UsersController extends Controller
             Session::put('frontSession',$input_data['email']);
             Session::put('user_access','in');
              Session::put('cart_val',0);
-            return redirect('/client_account');
+            return redirect('/');
         }else{
             return back()->with('message','Account is not Valid!');
         }
