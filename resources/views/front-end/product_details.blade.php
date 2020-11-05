@@ -9,6 +9,7 @@
                 @include('front-end.layouts.category_menu')
             </div>
         <div class="col-sm-9 padding-right product-detsil">
+            @if(auth()->check())
             <div class="jumbotron">
                 <div class="row">
                     <div class="col-md-6"></div>
@@ -20,8 +21,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+            @endif
+
                 @if(Session::has('message'))
                     <div class="alert alert-success text-center" role="alert">
                         {{Session::get('message')}}

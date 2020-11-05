@@ -19,7 +19,7 @@
                                     {{Session::get('message')}}
                                 </div>
                             @endif
-
+                            @if(auth()->check())
                             <div class="jumbotron">
                                 <div class="row">
                                     <div class="col-md-6"></div>
@@ -33,6 +33,7 @@
                                 </div>
 
                             </div>
+                            @endif
 
 
 
