@@ -45,9 +45,14 @@ get_header();
                         <input type="email" class="form-control" placeholder="Email" name="email"/>
 
                     </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Password" name="password"/>
-                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="fa-eye">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="fa-eye"> <i class="fa fa-eye" id="togglePassword"></i></span>
+
+                        </div>
+                      </div>
+
 
 
 

@@ -4,7 +4,7 @@
 @section('content')
     <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">View Approved Order</a> </div>
+        <div id="breadcrumb"> <a href="{{ route('admin_home') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">View Approved Order</a> </div>
     </div>
     <!--End-breadcrumbs-->
 

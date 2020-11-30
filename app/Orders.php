@@ -13,7 +13,7 @@ class Orders extends Model
     protected $fillable=['users_id',
         'users_email','name','postal_address','city','phone_no','country','shipping_charges','coupon_code','coupon_amount',
         'order_status','payment_method','grand_total',
-        'order_type'];
+        'order_type','supporting_document'];
 
       public function items()
     {

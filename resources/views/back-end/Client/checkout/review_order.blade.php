@@ -34,12 +34,16 @@
     <div class="widget-content" >
         <div class="row-fluid">
             <div class="container">
+
+
                 <div class="step-one">
                     <h4 class="heading my-3 text-info text-center text-capitalize">billing To</h4>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-11">
                     <form action="{{url('/submit-order')}}" method="post" class="form-horizontal">
+
+
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
 
                         <input type="hidden" name="users_id" value="{{$billing_address->users_id}}">

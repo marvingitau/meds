@@ -4,7 +4,7 @@
 @section('content')
     <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="{{route('product.index')}}">Pending Clients</a> <a href="#" class="current">View Clients Details</a></div>
+    <div id="breadcrumb"> <a href="{{ route('hr') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="{{ route('hr') }}">Pending Orders</a></div>
     </div>
     <!--End-breadcrumbs-->
 
@@ -50,10 +50,10 @@
                 <td>
                     <a class=" btn btn-info"
                     role="button" href="{{ route('hrviewStafforder',$item->id)}}">
-                            <span class="glyphicon glyphicon-edit"></span> view
+                            <span class=" 	fa fa-eye"></span> view
                     </a>
                     <button rel="{{$item->id}}" rel1="staff/order/delete" class="btn btn-danger btn-mini deleteRecord">
-                        <span class="glyphicon glyphicon-trash"></span> Delete
+                        <span class="fa fa-trash-o"></span> Delete
                     </button></td>
                 </td>
             </tr>
@@ -71,31 +71,17 @@
 @endsection
 
 @section('jsblock')
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="{{asset('public/js/excanvas.min.js')}}"></script>
-    {{-- <script src="{{asset('js/jquery.min.js')}}"></script> --}}
 
-
-    <script src="{{asset('public/js/jquery.ui.custom.js')}}"></script>
-    <script src="{{asset('public/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('public/js/jquery.flot.min.js')}}"></script>
-    <script src="{{asset('public/js/jquery.flot.resize.min.js')}}"></script>
-    <script src="{{asset('public/js/jquery.peity.min.js')}}"></script>
-    <script src="{{asset('public/js/fullcalendar.min.js')}}"></script>
-    <script src="{{asset('public/js/matrix.js')}}"></script>
-    <script src="{{asset('public/js/matrix.dashboard.js')}}"></script>
-    <!--<script src="{{asset('public/js/jquery.gritter.min.js')}}"></script>-->
-    <script src="{{asset('public/js/matrix.interface.js')}}"></script>
-    <!--<script src="{{asset('public/js/matrix.chat.js')}}"></script>-->
-    <script src="{{asset('public/js/jquery.validate.js')}}"></script>
-    <script src="{{asset('public/js/jquery.wizard.js')}}"></script>
-    <script src="{{asset('public/js/jquery.uniform.js')}}"></script>
-    <script src="{{asset('public/js/select2.min.js')}}"></script>
-    <!--<script src="{{asset('public/js/matrix.popover.js')}}"></script>-->
-    <script src="{{asset('public/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('public/js/matrix.tables.js')}}"></script>
-    <!--<script src="{{asset('public/js/matrix.form_validation.js')}}"></script>-->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    {{-- <script src="{{ asset('public/js/jquery.ui.custom.js')}}"></script> --}}
+    <script src="{{ asset('public/js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('public/js/wysihtml5-0.3.0.js')}}"></script>
+    <script src="{{ asset('public/js/jquery.peity.min.js')}}"></script>
+    <script src="{{ asset('public/js/bootstrap-wysihtml5.js')}}"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
 
     <script type="text/javascript">
 

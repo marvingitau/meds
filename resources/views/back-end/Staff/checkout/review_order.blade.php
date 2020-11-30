@@ -30,13 +30,57 @@
 
     </div>
     <!--End-breadcrumbs-->
+
+    @if(Session::has('message'))
+
+    <?php
+    $xml=simplexml_load_string(Session::get('message')) or die("Error: Cannot create object");
+    // print_r($xml);
+    ?>
+
+    <div class="alert alert-success text-center0" role="alert">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <ul>
+                    <li>
+                        SalesOrder:
+                        <?php
+
+                        echo ($xml->Order->SalesOrder);
+                       ?>
+                    </li>
+                    <li>
+                        ItemsProcessed:
+                        <?php
+
+                        echo ($xml->StatusOfItems->ItemsProcessed);
+                       ?>
+
+                    </li>
+                    <li>
+                        ItemsRejected:
+                        <?php
+
+                        echo ($xml->StatusOfItems->ItemsRejectedWithWarnings);
+                       ?>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+
+
+
+    </div>
+   @endif
     <div class="container">
         <div class="step-one">
             {{-- <h4 class="heading my-3 text-info text-center text-capitalize">billing To</h4> --}}
         </div>
         <div class="row">
             <div class="col-sm-12">
-            <form action="{{route('order.submit')}}" method="post" class="form-horizontal">
+            <form action="{{route('order.submit')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
 
                 <input type="hidden" name="users_id" value="{{$billing_address->users_id}}">
@@ -65,7 +109,7 @@
                 <div class="form-group my-3 ml-5">
                   <label for="" class="ml-1 font-weight-bold" style="">Suppoting Document(required)</label>
                   <input type="file"
-                    class="form-control w-50 rounded-0" name="supporting_documents" id="" aria-describedby="helpId" placeholder="" required>
+                    class="form-control w-50 rounded-0" name="supporting_documents[]" id="" aria-describedby="helpId" placeholder="" multiple required>
                 </div>
                 @endif
 
@@ -161,17 +205,17 @@
                             </table>
                         </div>
                         <div class="payment-options">
-                            <span>Select Payment Method : </span>
+                            <span>Select Payment Method : </span> <br>
                         <span>
-                            <label><input type="radio" name="payment_method" value="COD" checked> Cash On Delivery</label>
-                        </span>
+                            <label><i class="fa fa-money mr-2  icon"></i> <input type="radio" name="payment_method" value="COD" checked>  Cash On Delivery</label>
+                        </span> <br>
                         <span>
-                            <label><input type="radio" name="payment_method" value="Paypal"> Paypal</label>
-                        </span>
+                            <label> <i class="fa fa-paypal mr-2 icon"></i> <input type="radio" name="payment_method" value="Paypal">Paypal</label>
+                        </span> <br>
 
-                        {{-- <span>
-                            <label><input type="radio" name="payment_method" value="Paypal"> VISA</label>
-                        </span> --}}
+                        <span>
+                            <label><i class="fa fa-cc-visa mr-2 icon"></i>  <input type="radio" name="payment_method" value="Visa"> VISA</label>
+                        </span> <br>
                             <button type="submit" class="btn btn-primary mr-5" style="float: right;">Order Now</button>
                         </div>
                     </section>

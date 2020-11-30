@@ -24,6 +24,7 @@ class OrderDetail extends Resource
             'discountPercent'=>0,
             'totalAmount'=> $this->grand_total,
             'discountTotal'=>0,
+            // 'customerCode'=>002,
             'customerCode'=>$this->user->CustomerCode,
             'taxPlan' => 'VAT',
             'ExchangeRate'=>0,

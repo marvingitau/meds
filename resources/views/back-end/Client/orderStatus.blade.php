@@ -24,7 +24,7 @@
     <div id="content-header">
         <div id="breadcrumb">
             <a href="{{ url('/')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-            <a href="" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
+            <a href="{{ route('client.dashboard')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
             <a href=""> <i class="icon-dashboard"></i>  Order Progress Status </a>
         </div>
     </div>
@@ -41,26 +41,26 @@
                 <h4 class="order-no">Order: {{ $currentClientOrder->id }}</h4>
                     <ul class="progressbar">
                         <li class="<?php echo $currentClientOrder->order_verify == 1?'active':''; ?>">
-                            <a href="" style="color:unset; text-decoration:none;" title="Orders in Warehouse Manager" class="tip-bottom">
+                        <a href="{{ route('cient.order.view',$currentClientOrder->id) }}" style="color:unset; text-decoration:none;" title="Orders in Warehouse Manager" class="tip-bottom">
                             Order Approved <br>
                             <i class="fa fa-building icon"></i>
                             </a>
 
                         </li>
                         <li class="<?php echo $currentClientOrder->progress_status_whmgr == 5?'active':''; ?>">
-                            <a href="" style="color:unset; text-decoration:none;" title="Orders in HR" class="tip-bottom">
+                            <a href="{{ route('cient.order.view',$currentClientOrder->id) }}" style="color:unset; text-decoration:none;" title="Orders in HR" class="tip-bottom">
                             Orders in Warehouse <br>
                             <i class="fa fa-users icon"></i>
                             </a>
                         </li>
                         <li <?php echo $currentClientOrder->progress_status_packaged == 1?'active':''; ?>>
-                            <a href="" style="color:unset; text-decoration:none;" title="Orders in Accounts" class="tip-bottom">
+                            <a href="{{ route('cient.order.view',$currentClientOrder->id) }}" style="color:unset; text-decoration:none;" title="Orders in Accounts" class="tip-bottom">
                             Orders Packed <br>
                             <i class="fa fa-table icon"></i>
                             </a>
                         </li>
                         <li <?php echo $currentClientOrder->progress_status_dispatch == 1?'active':''; ?>>
-                            <a href="" style="color:unset; text-decoration:none;" title="Dispatched Orders" class="tip-bottom">
+                            <a href="{{ route('cient.order.view',$currentClientOrder->id) }}" style="color:unset; text-decoration:none;" title="Dispatched Orders" class="tip-bottom">
                             Orders ready for Dispatch<br>
                             <i class="fa fa-truck icon"></i>
 

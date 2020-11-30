@@ -8,6 +8,8 @@ use App\CustomOrder;
 use App\Complain;
 use App\Orders;
 use App\Role;
+use App\CurrencyList;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +28,7 @@ class AdminController extends Controller
 {
     public function index(){
          $menu_active=1;
-        $pding_client =User::select('id','name_of_institution','name','email')->where('approved',0)->count();
+        $pding_client =User::select('id','name_of_institution','name','email')->where('approved',0)->whereNull('userId')->count();
         $pding_order =CustomOrder::where('approved', 0)->count();
         $compl= Complain::where('dealt_with',0)->orderBy('created_at','desc')->take(-3)->get();
 
@@ -37,7 +39,7 @@ class AdminController extends Controller
     public function pending_clients()
     {
         $menu_active=4;
-        $user_data = User::select('id','name_of_institution','name','email')->where('approved',0)->whereNull('role')->get();
+        $user_data = User::select('id','name_of_institution','name','email')->where('approved',0)->whereNull('userId')->whereNull('role')->get();
         return view('back-end.p_client',compact(['menu_active','user_data']));
     }
 
@@ -88,12 +90,12 @@ class AdminController extends Controller
             ]);
 
             $upload_data = [
-                "customerCode"=> $app_usr->id,
+                "customerCode"=> $app_usr->CustomerCode,
                 "name" => $app_usr->name,
                 "contact"=>$app_usr->doctors_name,
                 "email" => $app_usr->email,
-                "priceCode" =>  "A",
-                "customerclass"=>'NG',
+                "priceCode" =>  "N",
+                "customerclass"=>$app_usr->customerclass,
                 "telephone"=> $app_usr->phone_no,
                 "soldToAddr1" => $data['soldToAddr1'],
                 'soldToAddr2'=>$data['soldToAddr2'],
@@ -104,7 +106,7 @@ class AdminController extends Controller
                 "currency"=> "KSH",
                 "salesperson"=> $data['Salesperson'],
                 "branch"=> $data['Branch'],
-                "arStatementNo" =>0,
+                "arStatementNo" =>"0",
                 "termsCode"=> $data['Terms']
             ];
 
@@ -118,7 +120,7 @@ class AdminController extends Controller
             'form_params' => $upload_data,'verify' => false
         ]);
 
-        return back()->with('message',(json_decode($response->getBody(), true))['Message'] );
+        return back()->with('message',(json_decode($response->getBody(), true)) );
 
     }
 
@@ -209,12 +211,29 @@ class AdminController extends Controller
         // dd(OrderResource::collection($approvingItems)) ;
 
         $Order = Orders::findOrFail($aux_id);
+        $orderItems = [];
+        foreach($Order->items as $item) {
+            $itemData = [
+                "itemNumber" => $item->itemNumber,
+                "ProductClass" => $item->ProductClass,
+                "PONumber" => $item->PONumber,
+                "itemCode" => $item->itemCode,
+                "itemDesc" => $item->itemDesc,
+                "listPrice" =>  $item->listPrice,
+                "itemUnits" =>  $item->itemUnits,
+                "Qty" =>  $item->Qty
+            ];
+
+            array_push($orderItems, $itemData);
+        }
+
 
         $approv_order_data = [
 
             'OrderNo' => $Order->id,
             'OrderID' => $Order->id,
             'baseCurrency' => 'KSH',
+            'StockLine' =>'NA',
             'discountPercent'=>0,
             'totalAmount'=> $Order->grand_total,
             'discountTotal'=>0,
@@ -223,29 +242,32 @@ class AdminController extends Controller
             'ExchangeRate'=>0,
 
 
-            'OrderItems'=>$Order->items->toArray(),
+            'OrderItems'=>$orderItems,
 
         ];
 
         // dd(json_encode($approv_order_data));
 
-        // $url = "http://41.207.79.81:89/sysproapi/v1/order/create";  //check on this with victor
+
+        $url = "http://41.207.79.81:89/sysproapi/v1/order/create";  //check on this with victor
+        // dd(($approv_order_data) );
+
+        $client = new Client;
+        $response = $client->request('POST',  $url, [
+            'headers' => [ 'Content-Type' => 'application/json' ],
+            'body' => json_encode($approv_order_data),'verify' => false
+        ]);
 
 
-        // $client = new Client;
-        // $response = $client->request('POST',  $url, [
-        //     'form_params' => $approv_order_data,'verify' => false
-        // ]);
+        return back()->with('message',(json_decode($response->getBody(), true)));
 
-        // return back()->with('message',(json_decode($response->getBody(), true))['Message'] );
-        return back();
 
     }
 
     public function order_in_warehouse()
     {
 
-        $menu_active=10;
+        $menu_active=100;
         $approvedOrder=Orders::where('order_verify', 1)->where('order_type',99)->whereNull('progress_status_packaged')->get();
 
         return view('back-end.view_order_warehouse',compact(['menu_active','approvedOrder']));
@@ -424,7 +446,9 @@ class AdminController extends Controller
         $menu_active=60;
         $Order = Orders::findOrFail($id);
         $Order_items = Orders::findOrFail($id)->items;
-        return view('back-end.OtherAdmins.hr_view_order',compact(['menu_active','Order','Order_items','id']));
+        $supporting_files = UserExtraData::where('user_id',$Order->users_id)->get();
+
+        return view('back-end.OtherAdmins.hr_view_order',compact(['menu_active','Order','Order_items','id','supporting_files']));
     }
     public function hrApprovingOrder($id)
     {
@@ -629,15 +653,55 @@ class AdminController extends Controller
     }
 
 
+    // public function acViewApprovedOrder($id){
+
+    // }
+
+
     public function otherAdminsViewApprovedOrder($id)
     {
         $menu_active=60;
+        $flag=0;
         $Order = Orders::findOrFail($id);
+        $user_id  = $Order->users_id;
+
+        if(User::where('id',$user_id)->whereNotNull('userId')->count()>0){
+            $flag = 1;
+        }
+
         $Order_items = Orders::findOrFail($id)->items;
-        return view('back-end.OtherAdmins.view_approv_order',compact(['menu_active','Order','Order_items','id']));
+        return view('back-end.OtherAdmins.view_approv_order',compact(['menu_active','Order','Order_items','id','flag']));
 
     }
 
+
+
+    public function currency()
+    {
+        $menu_active=11;
+        return view('back-end.currency',compact(['menu_active']));
+    }
+
+    public function currency_rate(Request $request)
+    {
+        $vals = $request->validate(
+            [
+                'rate'=>'required',
+                'currency'=>'required'
+            ]
+        );
+        $resp=CurrencyList::create($vals);
+
+        return back();
+
+    }
+
+    public function currency_delete($id)
+    {
+        $rec = CurrencyList::findOrFail($id);
+        $rec->delete();
+        return back();
+    }
 
 }
 ?>

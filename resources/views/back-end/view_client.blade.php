@@ -3,7 +3,7 @@
 @section('content')
     <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="{{route('product.index')}}">Pending Clients</a> <a href="#" class="current">View Clients Details</a></div>
+        <div id="breadcrumb"> <a href="{{ route('admin_home') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="{{route('product.index')}}">Pending Clients</a> <a href="#" class="current">View Clients Details</a></div>
     </div>
     <!--End-breadcrumbs-->
 
@@ -22,6 +22,7 @@ echo "RecordsInvalid: ".$xml->StatusOfItems[0]->RecordsInvalid."<br>";
 echo "RecordsRead: ".$xml->StatusOfItems[0]->RecordsRead."<br>";
 echo "RecordsInvalid: ".$xml->StatusOfItems[0]->RecordsInvalid."<br>";
 }
+// print_r($xml);
 
         ?>
     </div>

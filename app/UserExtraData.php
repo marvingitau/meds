@@ -18,6 +18,8 @@ class UserExtraData extends Model
         'guarantordesignation',
         'guarantorsignature',
         'filename',
-        'personinchargefile'
+        'personinchargefile',
+        'supporting_documents',
+        'supporting_name'
     ];
 }

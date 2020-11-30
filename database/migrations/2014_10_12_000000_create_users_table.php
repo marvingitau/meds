@@ -47,6 +47,9 @@ class CreateUsersTable extends Migration
             $table->text('Branch')->nullable();
             $table->text('Salesperson')->nullable();
             $table->text('Terms')->nullable(); //invoice terms
+            $table->string('userId')->nullable(); //staff primary key
+            $table->string('PONumber')->nullable(); //staff key customerclass
+            $table->string('customerclass')->nullable(); //staff key
 
 
 

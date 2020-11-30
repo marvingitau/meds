@@ -362,6 +362,13 @@ margin: 0 auto;
 	border-radius: 1rem;
 }
 
+/* 26/11/2020  */
+
+.payment-options .icon{
+    font-size: 2rem;
+    width: 2rem;
+}
+
 @media screen and (min-width: 576px) {
     .custom-table
         .modal-dialog {

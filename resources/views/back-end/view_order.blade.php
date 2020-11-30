@@ -10,25 +10,54 @@
     <!--End-breadcrumbs-->
 
     @if(Session::has('message'))
-    <div class="alert alert-success text-center" role="alert">
-        {{-- <strong></strong>{{Session::get('message')}} --}}
+    <?php
+    $xml=simplexml_load_string(Session::get('message')) or die("Error: Cannot create object");
+    // print_r($xml);
+    ?>
 
-        <?php
-        $xml=simplexml_load_string(Session::get('message')) or die("Error: Cannot create object");
-        print_r($xml);
-// try {
-//     echo " <br> Error: ".$xml->item[0]->customer[0]->ErrorDescription."<br>";
-// echo " customerCode:".$xml->item[0]->key[0]->customer."<br>";
-// echo "RecordsRead: ".$xml->StatusOfItems[0]->RecordsRead."<br>";
-// echo "RecordsInvalid: ".$xml->StatusOfItems[0]->RecordsInvalid."<br>";
-// } catch (\Throwable $th) {
-//     echo " <br>  customerCode:".$xml->item[0]->key[0]->customer."<br>";
-// echo "RecordsRead: ".$xml->StatusOfItems[0]->RecordsRead."<br>";
-// echo "RecordsInvalid: ".$xml->StatusOfItems[0]->RecordsInvalid."<br>";
-// }
+    <div class="alert alert-success text-center0" role="alert">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-7">
+                <ul>
+                    <li>
+                        SalesOrder:
+                        <?php
 
-        ?>
+                        echo ($xml->Order->SalesOrder);
+                       ?>
+                    </li>
+                    <li>
+                        ItemsProcessed:
+                        <?php
+
+                        echo ($xml->StatusOfItems->ItemsProcessed);
+                       ?>
+
+                    </li>
+                    <li>
+                        ItemsRejected:
+                        <?php
+
+                        echo ($xml->StatusOfItems->ItemsRejectedWithWarnings);
+                       ?>
+                    </li>
+                    <li>
+                        Error Message:
+                        <?php
+
+                        echo ($xml->Orders->OrderDetails->StockLine->ErrorMessages->ErrorDescription);
+                       ?>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+
+
     </div>
+
    @endif
 
 

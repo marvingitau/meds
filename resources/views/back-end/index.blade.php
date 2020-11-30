@@ -3,7 +3,7 @@
 @section('content')
     <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+        <div id="breadcrumb"> <a href="{{ route('admin_home') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
     </div>
     <!--End-breadcrumbs-->
 
@@ -50,7 +50,7 @@
                               </li>
                             @endforeach
                           @endif
-                      
+
                           <a  class="btn btn-warning btn-mini" href="{{ route('complain_list')}}" role="button">View All</a>
 
                         </li>
@@ -68,9 +68,10 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" integrity="sha512-F5QTlBqZlvuBEs9LQPqc1iZv2UMxcVXezbHzomzS6Df4MZMClge/8+gXrKw2fl5ysdk4rWjR0vKS7NNkfymaBQ==" crossorigin="anonymous"></script>
 
 <script>
-jQuery(document).ready(function(){
+jQuery(document).ready(function($){
     var ctx = document.getElementById('myChart');
     var myChart = new Chart(ctx, {
         type: 'line',

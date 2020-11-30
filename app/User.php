@@ -1,6 +1,8 @@
 <?php
 
 namespace App;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -22,7 +24,7 @@ class User extends Authenticatable
         'phone_no','buildingname','streetname','town','country','qualification','licence_no',
         'doctors_name','doctors_licence_no','resident','fulltime','periodicsupervision',
         'Salesperson','Branch','Terms',
-        'role',
+        'role','userId','staff','PONumber','CustomerCode','customerclass',
 
  'update_status','update_values'
     ];
@@ -52,6 +54,22 @@ class User extends Authenticatable
     public function isSubAdmin(){
         return ($this->admin !== null);
     }
+
+    public function checkWHSubAdminRole()
+    {
+        return (Auth::user()->role == 5);
+    }
+
+    public function checkHRSubAdminRole()
+    {
+        return (Auth::user()->role == 2);
+    }
+
+    public function checkACSubAdminRole()
+    {
+        return (Auth::user()->role == 4);
+    }
+
 
     public function isStaff(){
         return ($this->staff == 2);

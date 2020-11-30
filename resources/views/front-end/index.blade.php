@@ -22,7 +22,22 @@
                             @if(auth()->check())
                             <div class="jumbotron">
                                 <div class="row">
-                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+
+                                        <?php
+                                            if(!is_null(auth()->user()->form_title )){
+                                                ?>
+                                        <a href="{{ route('client.dashboard') }}" class="p-5 text-center bg-info rounded-1 text-white my-auto"><i class=" 	fa fa-dashboard"></i> Dashboard</a>
+
+                                                <?php
+                                            }else{
+                                                ?>
+                                        <a href="{{ route('staff.home') }}" class="p-5 text-center bg-info rounded-1 text-white my-auto"><i class=" 	fa fa-dashboard"></i>   Dashboard</a>
+
+                                                <?php
+                                            }
+                                        ?>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="text-right">
                                             <ul class="cart-section ">

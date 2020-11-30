@@ -56,6 +56,9 @@ class OrdersController extends Controller
          }
 
         $payment_method=$input_data['payment_method'];
+
+
+
         $order_id=Orders::create($input_data);
 
 

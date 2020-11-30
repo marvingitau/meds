@@ -84,6 +84,13 @@ class UsersController extends Controller
         return view('back-end.Client.orderStatus',compact(['menu_active','currentClientOrders']));
     }
 
+    public function view_order($id)
+    {
+          $menu_active=60;
+        $Order = Orders::findOrFail($id);
+        $Order_items = Orders::findOrFail($id)->items;
+        return view('back-end.Client.view_order',compact(['menu_active','Order','Order_items','id']));
+    }
     public function order_placed()
     {
         $menu_active=18;
@@ -375,7 +382,7 @@ class UsersController extends Controller
             'email'=>'required|string|email|unique:users,email',
             'password'=>'required|min:6|confirmed',
             'filename' => 'required',
-            'filename.*' => 'mimes:pdf,jpg,png,jpeg|max:1048',
+            'filename.*' => 'max:1048',
 
             'admin'=>'',
             'form_title'=>'',
@@ -409,9 +416,79 @@ class UsersController extends Controller
 
         $input_data=$request->all();
         // dd($input_data);
+        // generate customer code
+
+        // get which cat they belong
+
+        $from= $input_data['form_title'];
+        if($from == "private institution"){
+            $code_prefix = "P"; //N is price code
+
+            // get businnes name first 3 the letter
+            $org_name =  strtoupper(substr($input_data['name_of_institution'],0,3));
+
+            $code_numeric = sprintf("%03d",mt_rand(000,999));
+
+            $final_code = $code_prefix.''. $org_name.''. $code_numeric;
+            $customer_class = "PR";
+
+        }elseif($from == "faithbased institution"){
+            $code_prefix = "F";
+            // get businnes name first 3 the letter
+            $org_name =  strtoupper(substr($input_data['name_of_institution'],0,3));
+
+            $code_numeric = sprintf("%03d",mt_rand(000,999));
+
+            $final_code = $code_prefix.''. $org_name.''. $code_numeric;
+            $customer_class = "OT";
+
+        }elseif($from =="government institution"){
+            $code_prefix = "G";
+            // get businnes name first 3 the letter
+            $org_name =  strtoupper(substr($input_data['name_of_institution'],0,3));
+
+            $code_numeric = sprintf("%03d",mt_rand(000,999));
+
+            $final_code = $code_prefix.''. $org_name.''. $code_numeric;
+
+            $customer_class = "OT";
+        }elseif($from =="ngo"){
+            $code_prefix = "N";
+
+            // get businnes name first 3 the letter
+            $org_name =  strtoupper(substr($input_data['name_of_institution'],0,3));
+
+            $code_numeric = sprintf("%03d",mt_rand(000,999));
+
+            $final_code = $code_prefix.''. $org_name.''. $code_numeric;
+            $customer_class = "NG";
+
+        }elseif($from =="learning institutions"){
+            $code_prefix = "L";
+            // get businnes name first 3 the letter
+            $org_name =  strtoupper(substr($input_data['name_of_institution'],0,3));
+
+            $code_numeric = sprintf("%03d",mt_rand(000,999));
+
+            $final_code = $code_prefix.''. $org_name.''. $code_numeric;
+            $customer_class = "LN";
+
+        }else{
+            $code_prefix = "A"; //staff
+
+            // get businnes name first 3 the letter
+            $org_name =  strtoupper(substr($input_data['name_of_institution'],0,3));
+
+            $code_numeric = sprintf("%03d",mt_rand(000,999));
+
+            $final_code = $code_prefix.''. $org_name.''. $code_numeric;
+            $customer_class = "OT";
+        }
+
+
 
         $input_data['password']=Hash::make($input_data['password']);
-        $userID=User::create($input_data);
+        $userID=User::create($input_data+['CustomerCode'=>$final_code,'customerclass'=> $customer_class ]);
 
 
 

@@ -59,14 +59,21 @@ class CartController extends Controller
                 $count_duplicateItems=Cart::where(['products_id'=>$inputToCart['products_id'],
                     'product_color'=>$inputToCart['product_color'],
                     'size'=>$inputToCart['size'],
-                    'session_id'=>$inputToCart['session_id']
+                    'session_id'=>$inputToCart['session_id'],
+                    'itemCode'=>$inputToCart['itemCode']
                     ])->count();
                 if($count_duplicateItems>0){
                     return back()->with('message','This Item exist already');
                     // return redirect()->to('client_products_list')->with('message','This Item exist already');
                 }else{
 
-                    Cart::create($inputToCart);
+
+                      // get the latest order ID then increamnet it, for the current order itemNumber
+                      $latest_id = ((Cart::latest()->first()->id)+1);
+                      $kiwango = $inputToCart['quantity'];
+                      $price_aux =$inputToCart['price'];
+
+                    Cart::create($inputToCart+['itemNumber'=> $latest_id,'Qty'=> $kiwango ,'listPrice'=>$price_aux]);
                     $session_id=Session::get('session_id');
                     $cart_count =Cart::where('session_id',$session_id)->get()->count();
 

@@ -17,6 +17,7 @@
 
    <div class="widget-content" >
     <div class="row-fluid">
+        @if($flag == 0)
         <div class="row">
 
             <div class="col-md-6">
@@ -28,6 +29,7 @@
                 box-shadow: 0 0 0 .2rem rgba(38, 143, 255, 0); ">Order ready for dispatch</a>
               </div>
         </div>
+        @endif
     <table class="table">
         <div class="text-center"> Approved Order</div>
 

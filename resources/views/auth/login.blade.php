@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{asset('public/css/matrix-login.css')}}" />
     <link href="{{asset('public/font-awesome/css/font-awesome.css')}}" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
 </head>
 <body>
@@ -36,6 +37,13 @@
                 <div class="main_input_box">
                     {{-- <span class="add-on bg_ly"><i class="icon-lock"></i></span> --}}
                     <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="password" required>
+                    <i class="fa fa-eye" id="togglePassword" style="
+                    margin-left: -28px;
+                    cursor: pointer;
+                    margin-top: 11px;
+                    position: relative;
+                    font-size: 20px;
+                    "></i>
                     <br>
                     @if ($errors->has('password'))
                         <span class="invalid-feedback" role="alert">
@@ -87,6 +95,21 @@
 
 <script src="{{asset('public/js/jquery.min.js')}}"></script>
 <script src="{{asset('public/js/matrix.login.js')}}"></script>
+
+<script>
+const togglePassword = document.querySelector('#togglePassword');
+const password = document.querySelector('#password');
+
+togglePassword.addEventListener('click', function (e) {
+    // toggle the type attribute
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    // toggle the eye slash icon
+    this.classList.toggle('fa-eye-slash');
+});
+
+</script>
+
 </body>
 
 </html>

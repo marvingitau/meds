@@ -12,7 +12,22 @@
             @if(auth()->check())
             <div class="jumbotron">
                 <div class="row">
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+
+                        <?php
+                            if(!is_null(auth()->user()->form_title )){
+                                ?>
+                        <a href="{{ route('client.dashboard') }}" class="p-5 text-center bg-info rounded-1 text-white my-auto"> <i class=" 	fa fa-dashboard"></i> Dashboard</a>
+
+                                <?php
+                            }else{
+                                ?>
+                        <a href="{{ route('staff.home') }}" class="p-5 text-center bg-info rounded-1 text-white my-auto"><i class=" 	fa fa-dashboard"></i> Dashboard</a>
+
+                                <?php
+                            }
+                        ?>
+                    </div>
                     <div class="col-md-6">
                         <div class="text-right">
                             <ul class="cart-section ">
@@ -39,33 +54,49 @@
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" name="products_id" value="{{$detail_product[0]->ProductCode}}">
                     <input type="hidden" name="product_name" value="{{$detail_product[0]->Description}}">
+                    {{-- <input type="hidden" name="itemUnits" value="{{$detail_product[0]->StockUom}}"> StockUom --}}
+                    <input type="hidden" name="itemDesc" value="{{$detail_product[0]->Description}}"> {{-- itemCode--}}
+                    <input type="hidden" name="itemCode" value="{{$detail_product[0]->ProductCode}}"> {{-- ProductClass--}}
+                    <input type="hidden" name="ProductClass" value="{{$detail_product[0]->ProductClass}}"> {{-- ProductClass--}}
                     <input type="hidden" name="product_code" value="NA">
                     <input type="hidden" name="product_color" value="NA">
                     <input type="hidden" name="size" value="0">
 
                     <div class="product-information"><!--/product-information-->
 
-                        <h2><?php echo(isset($detail_product[0])?$detail_product[0]->Description:'NA');  ?></h2>
+                        <h2><?php echo(isset($detail_product[0])?$detail_product[0]->Description:'NA');  ?> <span class="text-info">|</span> Unit Of Measurement:  <?php echo(isset($detail_product[0])?$detail_product[0]->StockUom:'NA');  ?> </h2>
 
                         <?php
                         foreach ($detail_product[0]->Pricing as $key => $value) {
                             ?>
                             <input type="hidden" name="price" value="{{$value->SellingPrice}}" id="dynamicPriceInput">
+                            <input type="hidden" name="baseCurrency" value="{{$value->Currency}}" id="baseCurrency">
+                            <input type="hidden" name="itemUnits" value="{{$value->UnitOfMeasure}}" id="itemUnits">
                             <?php
 
 
                         } ?>
                         <br>
                         <span>
+
+                            <?php
+                                if(auth()->check() && !is_null(auth()->user()->form_title )){
+                            ?>
                             {{-- <!--<span id="dynamic_price">ksh {{!empty($detail_product->attributes[0])? $detail_product->attributes[0]->price:$detail_product->price }}</span>--> --}}
                             <label>Quantity:</label>
-                            <input type="number" name="quantity" id="inputStock" min=0 required/>
-                            @if(auth()->check())
-                            <button type="submit" class="btn btn-fefault cart" id="buttonAddToCart">
+                            <input type="number" name="quantity" id="inputStock" min=0 required style="width:66px;"/>
+                            <div class="form-group">
+                                <label for=""></label>
+                                <input type="text" class="form-control  rounded-0" style="width:58%" name="PONumber" id="PONumber" aria-describedby="helpId" placeholder="PONumber" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-fefault  cart " style="width:58%" id="buttonAddToCart" style="margin-left: 0px;">
                                 <i class="fa fa-shopping-cart"></i>
                                 Add to cart
                             </button>
-                            @endif
+                           <?php
+                            }
+                           ?>
                         </span>
                         <p><b>Availability:</b>
                             @if(1)
@@ -135,37 +166,3 @@
         </div>
     </div>
 @endsection
-{{-- <link rel="stylesheet" href="{{asset('easyzoom/css/easyzoom.css')}}" /> --}}
-{{-- <script src="{{asset('frontend/js/jquery.prettyPhoto.js')}}"></script> --}}
-{{-- <script src="{{asset('easyzoom/dist/easyzoom.js')}}"></script> --}}
-<script>
-    // Instantiate EasyZoom instances
-    // var $easyzoom = $('.easyzoom').easyZoom();
-
-    // // Setup thumbnails example
-    // var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
-
-    // $('.thumbnails').on('click', 'a', function(e) {
-    //     var $this = $(this);
-
-    //     e.preventDefault();
-
-    //     // Use EasyZoom's `swap` method
-    //     api1.swap($this.data('standard'), $this.attr('href'));
-    // });
-
-    // // Setup toggles example
-    // var api2 = $easyzoom.filter('.easyzoom--with-toggle').data('easyZoom');
-
-    // $('.toggle').on('click', function() {
-    //     var $this = $(this);
-
-    //     if ($this.data("active") === true) {
-    //         $this.text("Switch on").data("active", false);
-    //         api2.teardown();
-    //     } else {
-    //         $this.text("Switch off").data("active", true);
-    //         api2._init();
-    //     }
-    // });
-</script>

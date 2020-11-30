@@ -3,7 +3,7 @@
 @section('content')
     <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="{{route('product.index')}}">Pending Clients</a> 
+        <div id="breadcrumb"> <a href="{{ route('admin_home') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="{{route('product.index')}}">Pending Clients</a>
         <a href="#" class="current">View Clients Details</a>
         <a href="{{ route('edit_client',$id) }}" class="current">Edit THis Clients Details</a>
         </div>

@@ -169,7 +169,7 @@
                                                 foreach ($product->Pricing as $key => $value) {
                                                     echo($value->Currency);
                                                     ?>
-                                                     <input type="hidden" name="baseCurrency" value="{{$value->Currency}}" id="baseCurrency">
+                                                    <input type="hidden" name="baseCurrency" value="{{$value->Currency}}" id="baseCurrency">
                                                     <?php
                                                 } ?>
                                                 <input type="hidden" name="itemDesc" value="{{$product->Description}}">
@@ -178,6 +178,7 @@
                                                 foreach ($product->Pricing as $key => $value) {
                                                     ?>
                                                     <input type="hidden" name="listPrice" value="{{$value->SellingPrice}}">
+                                                    <input type="hidden" name="currency" value="{{$value->Currency}}" id="dynamicCurrencyInput">
 
                                                     <?php
 

@@ -51,6 +51,8 @@ class IndexController extends Controller
                 $u_id = "N";
             }elseif($user =="learning institutions"){
                 $u_id = "N";
+            }else{
+                $u_id = "A"; //staff
             }
 
             // product category  id
@@ -172,6 +174,8 @@ class IndexController extends Controller
             $u_id = "N";
         }elseif($user =="learning institutions"){
             $u_id = "N";
+        }else{
+            $u_id = "A"; //staff
         }
 
         // product category  id
@@ -232,8 +236,7 @@ class IndexController extends Controller
         $byCate="";
         return view('front-end.products',compact('products','byCate'));
     }
-    public function listByCat($id){
-        // dd('ds');
+    public function listByCat($id){ // dd('ds');
         // $list_product=Products::where('categories_id',$id)->get();
         $client = new Client;
         $request = $client->get('http://41.207.79.81:89/sysproapi/v1/product/list/'.$id.'/', ['verify' => false]);
@@ -246,10 +249,12 @@ class IndexController extends Controller
         return view('front-end.products',compact('products','byCate'));
     }
     public function detialpro($id){
-        // $detail_product=Products::findOrFail($id);
-        // $imagesGalleries=ImageGallery::where('products_id',$id)->get();
-        // $totalStock=ProductAttrib::where('products_id',$id)->sum('stock');
-        // $relateProducts=Products::where([['id','!=',$id],['categories_id',$detail_product->categories_id]])->get();
+
+
+        // Store a Price Specific to user Arr Position
+        $price_position =0;
+
+
 
         try {
             $client = new Client;
@@ -261,12 +266,7 @@ class IndexController extends Controller
         } catch (\Throwable $th) {
             $products = null;
         }
-        // $client = new Client;
-        // $request = $client->get('http://41.207.79.81:89/sysproapi/v1/product/price/'.$id.'/', ['verify' => false]);
-        // $response = $request->getBody();
-        // // dd($response->getContents());
 
-        // $products=json_decode($response->getContents());
 
 
 

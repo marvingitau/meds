@@ -4,7 +4,7 @@
 @section('content')
     <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">View Approved Order</a></div>
+    <div id="breadcrumb"> <a href="{{ route('hr') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a class="current">View Approved Order</a></div>
     </div>
     <!--End-breadcrumbs-->
 
@@ -51,10 +51,10 @@
                 <td>
                     <a class=" btn btn-info"
                     role="button" href="{{ route('hrViewApprovedOrder',$item->id)}}">
-                            <span class="glyphicon glyphicon-edit"></span> view
+                            <span class=" 	fa fa-eye"></span> view
                     </a>
                     <button rel="{{$item->id}}" rel1="delete_order" class="btn btn-danger btn-mini deleteRecord">
-                        <span class="glyphicon glyphicon-trash"></span> Delete
+                        <span class="fa fa-trash-o"></span> Delete
                     </button></td>
                 </td>
             </tr>

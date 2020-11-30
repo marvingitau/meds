@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Closure;
 
-class subAdmin
+class hrSubAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class subAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->isSubAdmin()){
+        if(Auth::check() && Auth::user()->isSubAdmin() && Auth::user()->checkHRSubAdminRole()){
             return $next($request);
         }
         return redirect('login');

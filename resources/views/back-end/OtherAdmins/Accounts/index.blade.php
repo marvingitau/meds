@@ -50,10 +50,10 @@
                 <td>
                     <a class=" btn btn-info"
                     role="button" href="{{ route('acviewStafforder',$item->id)}}">
-                            <span class="glyphicon glyphicon-edit"></span> view
+                            <span class="fa fa-eye"></span> view
                     </a>
                     <button rel="{{$item->id}}" rel1="staff/order/delete" class="btn btn-danger btn-mini deleteRecord">
-                        <span class="glyphicon glyphicon-trash"></span> Delete
+                        <span class="fa fa-trash-o"></span> Delete
                     </button></td>
                 </td>
             </tr>

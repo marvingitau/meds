@@ -86,6 +86,7 @@ Route::group(['middleware'=>'clientlogin'],function (){
 
     // Route::get('/order_status','UsersController@order_sttus')->name('order.status');
     Route::get('/order_progress','UsersController@order_progrss')->name('order.progress');
+    Route::get('/order_view/{id}','UsersController@view_order')->name('cient.order.view');
     Route::get('/order_placed','UsersController@order_placed')->name('order placed');
     Route::get('/order_in_warehouse','UsersController@order_in_warehouse')->name('order.inwarehouse');
     Route::get('/order_packed','UsersController@order_packed')->name('order.packed');
@@ -177,7 +178,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function (){
     Route::get('delete-attribute/{id}','ProductAttribController@deleteAttr');
 
      /// Product Images Gallery
-     Route::resource('/image-gallery','ImagesController');
+    Route::resource('/image-gallery','ImagesController');
 
 
 
@@ -186,6 +187,13 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function (){
     Route::get('/complain_view/{id}', 'AdminController@view_complain')->name('complain_view');
     Route::get('/complain_approve/{id}', 'AdminController@approve_complain')->name('complain_approve');
     Route::post('/complain_response/{id}', 'AdminController@complain_response')->name('complain_response');
+
+    // CURRENCY CONVERSION
+    Route::get('/currency', 'AdminController@currency')->name('currency');
+    Route::post('/currency_rate', 'AdminController@currency_rate')->name('currency_rate');
+    Route::get('/currency_rate_delete/{id}', 'AdminController@currency_delete')->name('currency_delete');
+
+
 
     // SubAdmins URLs
     Route::group(['prefix'=>'create'],function (){
@@ -205,7 +213,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function (){
 });
 
 // HUMAN RESOURCE ULS
-Route::group(['prefix'=>'humanResource','middleware'=>['auth','subadmin']],function (){
+Route::group(['prefix'=>'humanResource','middleware'=>['auth','hrSubadmin']],function (){
     Route::get('/','AdminController@hrindex')->name('hr');
     Route::get('/staff/order/view/{id}', 'AdminController@hrViewStafforder')->name('hrviewStafforder');//order to approve
     Route::get('/staff/order/approved','AdminController@hrStaffApprovedOrder')->name('hrApprovedStaffOrder');
@@ -215,7 +223,7 @@ Route::group(['prefix'=>'humanResource','middleware'=>['auth','subadmin']],funct
 });
 
 // ACCOUNTS ULS
-Route::group(['prefix'=>'accounts','middleware'=>['auth','subadmin']],function (){
+Route::group(['prefix'=>'accounts','middleware'=>['auth','acSubadmin']],function (){
     Route::get('/','AdminController@acindex')->name('ac');
     Route::get('/staff/order/view/{id}', 'AdminController@acViewStafforder')->name('acviewStafforder');//order to approve
     Route::get('/staff/order/approved','AdminController@acStaffApprovedOrder')->name('acApprovedStaffOrder');
@@ -227,7 +235,7 @@ Route::group(['prefix'=>'accounts','middleware'=>['auth','subadmin']],function (
 });
 
  // WAREHOUSE MANAGER ULS
- Route::group(['prefix'=>'warehouseManager','middleware'=>['auth','subadmin']],function (){
+ Route::group(['prefix'=>'warehouseManager','middleware'=>['auth','wrSubadmin']],function (){
     Route::get('/','AdminController@whmgrindex')->name('wmgr');
     Route::get('/staff/order/view/{id}', 'AdminController@whmgrViewStafforder')->name('wrviewStafforder');//order to approve
 
@@ -237,7 +245,7 @@ Route::group(['prefix'=>'accounts','middleware'=>['auth','subadmin']],function (
     Route::get('/staff/order/approved','AdminController@whmgrStaffApprovedOrder')->name('whmgrApprovedStaffOrder');
     Route::get('/staff/order/approving/{id}', 'AdminController@whmgrApprovingOrder')->name('whmgrApprovingOrder');
     Route::get('/staff/order/approved/view/{id}', 'AdminController@otherAdminsViewApprovedOrder')->name('otherAdminsViewApprovedOrder');//order to viu
-    Route::get('/staff/order/delete/{id}','AdminController@previledgeUserDeleteOrder');
+    Route::get('/order/delete/{id}','AdminController@previledgeUserDeleteOrder');
 
 });
 
@@ -264,6 +272,10 @@ Route::group(['prefix'=>'staff','middleware'=>['auth','staff']],function (){
         Route::post('/order/submit','StaffController@order')->name('order.submit');
         Route::get('/cod','StaffController@cod')->name('cod');
         Route::get('/paypal','OrdersController@paypal')->name('paypal');
+        Route::get('/visa','OrdersController@visa')->name('visa');
+        Route::get('/document/list','StaffController@documents')->name('staff.document.list');
+        Route::get('/document/delete/{id}','StaffController@docdelete')->name('staff.document.delete');
+
 
 
     Route::post('/product/prescription/cat','StaffController@prescriptionproductcat')->name('pres.product.cat');

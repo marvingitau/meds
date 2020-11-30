@@ -27,6 +27,8 @@ class CreateUserExtraDataTable extends Migration
             $table->string('guarantorsignature')->nullable();
             $table->string('filename')->nullable();
             $table->string('personinchargefile')->nullable();
+            $table->string('supporting_documents')->nullable();
+            $table->string('supporting_name')->nullable();
             $table->timestamps();
         });
     }

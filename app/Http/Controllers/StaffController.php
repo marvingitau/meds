@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Staff;
 use Illuminate\Http\Request;
+use App\Http\Helper\MimeCheckRules;
+use Illuminate\Support\Facades\File;
 
 use App\User;
 use App\Products;
@@ -15,6 +17,7 @@ use App\CustomOrder;
 use App\Complain;
 use App\Cart;
 use App\Orders;
+use App\CurrencyList;
 use GuzzleHttp\Client;
 
 use Illuminate\Support\Facades\Auth;
@@ -51,7 +54,7 @@ class StaffController extends Controller
 
         $id= auth()->user()->id;
 
-        $currentStaffOrders = Orders::where('users_id',$id)->get(); //get all current staff order
+        $currentStaffOrders = Orders::where('users_id',$id)->paginate(5); //get all current staff order
         // dd($currentStaffOrders);
 
         $whmgrCount= Orders::where('users_id',$id)->whereNotNull('order_type')->whereNull('progress_status_whmgr')->whereNull('progress_status_hr')->whereNull('progress_status_ac')->count();
@@ -177,17 +180,7 @@ class StaffController extends Controller
         array_unshift($links, $currentLink); // Putting it in the beginning of links array
         session(['links' => $links]); // Saving links array to the session
         // dd(session('links'));
-        // $input = array(1.1, 10, 17.7, 5.1);
-        // $rand_keys=array_rand($input,1);
 
-        // $id =$input[$rand_keys];
-        // $client = new Client;
-        // $request = $client->get('http://41.207.79.81:89/sysproapi/v1/product/list/'.$id.'/', ['verify' => false]);
-        // $response = $request->getBody();
-        // // dd($response->getContents());
-
-        // $products=json_decode($response->getContents());
-        // $products =Products::all();
         if(session::get('loggedin_user_category_session_id')){
             $u_id = session::get('loggedin_user_category_session_id');
         }
@@ -225,14 +218,9 @@ class StaffController extends Controller
     public function prescriptionproductcat(Request $request)
     {
 
-        // $user = auth()->user()->form_title;
-        // if($user == "private institution"){
-            $u_id = "A"; //price ID
-        // }elseif($user == "faithbased institution"){
-        //     $u_id = "A";
-        // }else{
 
-        // }
+            $u_id = "A"; //price Code
+
 
         // product category  id
         $id = $request->input('catd');
@@ -253,6 +241,9 @@ class StaffController extends Controller
             $client = new Client;
             //products and price per client type
             $request = $client->get('http://41.207.79.81:89/sysproapi/v1/product/list/'.$id.'/'.$u_id.'/', ['verify' => false]);
+
+             //products and price list (some items list have multiple prices)
+             // $request = $client->get('http://41.207.79.81:89/sysproapi/v1/product/list/'.$id.'/', ['verify' => false]);
             $response = $request->getBody();
             $products_price=json_decode($response->getContents());
         } catch (\Throwable $th) {
@@ -260,7 +251,7 @@ class StaffController extends Controller
         }
 
         $product_cat = DB::table('list_of_product_class_descriptions_Sheet')->get()->toArray();
-        $menu_active=12;
+        $menu_active=14;
         $i=0;
         $list_product=$products_price;
         return view('back-end.Staff.products.view_products_prescription',compact(['menu_active','list_product','i','product_cat']));
@@ -269,6 +260,14 @@ class StaffController extends Controller
 
     public function addToCart(Request $request){
         $inputToCart=$request->all();
+        // dd($inputToCart);
+        $rate = 1;
+
+        if($inputToCart['currency'] != 'KSH'){
+            $data  = CurrencyList::where('currency',$inputToCart['currency'])->first();
+            $rate =$data->rate;
+
+        }
         Session::forget('discount_amount_price');
         Session::forget('coupon_code');
         if($inputToCart['size']==""){
@@ -287,27 +286,37 @@ class StaffController extends Controller
                 $inputToCart['size']=$inputToCart['size'];
                 $inputToCart['item_from']=Session::get('order_type');
                 $inputToCart['product_code']=null;
+                $inputToCart['price']*=$rate;
+
 
                 $count_duplicateItems=Cart::where(['products_id'=>$inputToCart['products_id'],
                     'product_color'=>$inputToCart['product_color'],
                     'size'=>$inputToCart['size'],
-                    'session_id'=>$inputToCart['session_id']
+                    'session_id'=>$inputToCart['session_id'],
+                    'itemCode'=>$inputToCart['itemCode']
                     ])->count();
                 if($count_duplicateItems>0){
 
 
 
-                    return redirect()->to(session('links')[0])->with('message','This Item Added already');
+                    return redirect()->to(session('links')[0])->with('message','Item Exist already');
                 }else{
 
-                    Cart::create($inputToCart);
+                    // get the latest order ID then increamnet it, for the current order itemNumber
+                    $latest_id = ((Cart::latest()->first()->id)+1);
+                    $kiwango = $inputToCart['quantity'];
+                    $staffPONumber = auth()->user()->PONumber;
+
+
+                    $cart_resp = Cart::create($inputToCart+['itemNumber'=>$latest_id, 'Qty'=>$kiwango,'PONumber' =>  $staffPONumber ]);
+                    // dd( $cart_resp);
 
                     $session_id=Session::get('session_id');
                     $cart_count =Cart::where('session_id',$session_id)->get()->count();
                     Session::put('cart_val',$cart_count);
 
                     // return back()->with('message','Add To Cart Already');
-                    return redirect()->to(session('links')[0])->with('message','Add To Cart Already');
+                    return redirect()->to(session('links')[0])->with('message','Added To Cart ');
                 }
             }else{
                 return redirect()->to(session('links')[0])->with('message','Stock is not Available!');
@@ -416,12 +425,18 @@ class StaffController extends Controller
 
     public function order(Request $request){
         $require_hr= 0;
+        // supporting document default pathway
+        $pathway = 'NA';
+
         // $this->validate($request,[
         //     'supporting_documents'=>'mimes:pdf,png,jpg,jpeg|max:1000'
         // ]);
         request()->validate([
-            'supporting_documents'  => 'max:1048',
+            'supporting_documents'  =>['max:1048'],
         ]);
+
+        // dd($request->all()['supporting_documents'][0]);
+        // dd($request->file('supporting_documents')[0]);
 
 
         $input_data=$request->all();
@@ -438,9 +453,35 @@ class StaffController extends Controller
         if( in_array('2',array_values($input_data['ordertype']),true) ){
             $require_hr=1;
         }
+         // store it in the extra data table get the numbrt of documents
+
+        if($request->hasFile('supporting_documents') ){
+            $doc_number = count($request -> all()['supporting_documents']);
+            for($i=0;$i<$doc_number;$i++){
+                $path = 'public/assets/docs';
+                // renamming the file
+                // $name = 'supporting_documents_'.$i.'_'.auth()->user()->id.'.'.$request->file('supporting_documents')[$i]->getClientOriginalExtension();
+                // appending to the file name
+                $filename = pathinfo($request->file('supporting_documents')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
+                $name = 'supporting_documents_'.$i.'_'.auth()->user()->id.'_'.$request->file('supporting_documents')[$i]->getClientOriginalName();
+                @unlink($path.'/'.$name);
+                $resp = $request->file('supporting_documents')[$i]->move($path,$name);
+                $fileUploaded = 1;
+                $pathway = $path.'/' . $name;
+
+                $obj = new UserExtraData();
+                $obj->supporting_documents =  $pathway;
+                $obj->supporting_name =  $filename;
+                $obj->user_id = auth()->user()->id;
+                $obj->save();
+
+            }
+        }
+
+
 
         $payment_method=$input_data['payment_method'];
-        $order_id=Orders::create($input_data+['order_type'=>$require_hr]);
+        $order_id=Orders::create($input_data+['order_type'=>$require_hr,]);
 
         // dd($order_id);
 
@@ -466,14 +507,51 @@ class StaffController extends Controller
 
         // Staff Order push API endpoint
 
-        dd($input_data);
+        // dd($input_data);
+
+        $Order = Orders::findOrFail($order_id->id);
+        $aux_order_type =  $Order->order_type == '1'?'Prescription':'General';
+
+        $approv_order_data = [
+
+            'OrderNo' => $Order->id,
+            'OrderID' => $Order->id,
+            'baseCurrency' => 'KSH',
+            'OrderType' =>  $aux_order_type,
+            'StockLine' =>'NA',
+            'discountPercent'=>0,
+            'totalAmount'=> $Order->grand_total,
+            'discountTotal'=>0,
+            'customerCode'=>'XMEDS01',
+            'taxPlan' => 'VAT',
+            'ExchangeRate'=>0,
 
 
-        if($payment_method=="COD"){
-            return redirect('/staff/cod');
-        }else{
-            return redirect('/staff/paypal');
-        }
+            'OrderItems'=>$Order->items->toArray(),
+
+        ];
+
+
+
+        $url = "http://41.207.79.81:89/sysproapi/v1/order/create";  //check on this with victor
+        // dd(($approv_order_data) );
+
+        $client = new Client;
+        $response = $client->request('POST',  $url, [
+            'headers' => [ 'Content-Type' => 'application/json' ],
+            'body' => json_encode($approv_order_data),'verify' => false
+        ]);
+
+
+        return back()->with('message',(json_decode($response->getBody(), true)));
+
+        // if($payment_method=="COD"){
+        //     return redirect('/staff/cod');
+        // }elseif($payment_method=="Paypal"){
+        //     return redirect('/staff/paypal');
+        // }else{
+        //     return redirect('/staff/visa');
+        // }
     }
 
     public function cod(){
@@ -481,7 +559,32 @@ class StaffController extends Controller
         $user_order=Orders::where('users_id',Auth::id())->latest()->first();
         return view('back-end.Staff.payment.cod',compact('user_order','menu_active'));
     }
+    public function visa(){
+        // $menu_active=42;
+        // $user_order=Orders::where('users_id',Auth::id())->latest()->first();
+        // return view('back-end.Staff.payment.cod',compact('user_order','menu_active'));
+        return back();
+    }
 
+
+    public function documents()
+    {
+        $menu_active=16;
+        $supporting_files = UserExtraData::where('user_id',auth()->user()->id)->get();
+
+        return view('back-end.Staff.documents',compact(['menu_active','supporting_files']));
+    }
+
+    public function docdelete($id)
+    {
+        $document_name = UserExtraData::where('supporting_name',$id)->first();
+        $document_path = $document_name->supporting_documents;
+        $filedelete_resp = File::delete(($document_path) );
+        $document_name->delete();
+
+        return back()->with('message','Document Deleted');
+
+    }
     public function viewWrMgrOrder()
     {
         // $menu_active=42;
@@ -525,7 +628,7 @@ class StaffController extends Controller
         // $user_order=Orders::where('users_id',Auth::id())->latest()->first();
         // return view('back-end.Staff.payment.cod',compact('user_order','menu_active'));
 
-        $menu_active=16;
+        $menu_active=169;
         $id= auth()->user()->id;
 
         $allOrders= Orders::where('users_id',$id)->where('order_verify',1)->whereNotNull('order_type')->whereNotNull('progress_status_whmgr')->whereNull('progress_status_ac')->get();

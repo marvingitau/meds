@@ -29,7 +29,7 @@
         <li class=""><a title="" href="{{url('/admin/settings')}}"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
        --}}
         <li class="">
-            <a class="dropdown-item" href="{{ route('logout') }}"
+            <a class="dropdown-item  	fa fa-sign-out" href="{{ route('logout') }}"
                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                 <i class="icon icon-share-alt"></i>{{ __('Logout') }}

@@ -28,7 +28,7 @@
             <tbody >
             <tr>
                     <a name="" id="" class="btn btn-primary w-100 my-2" href="{{route('acApprovingOrder',$id) }}" role="button" style="background-color:#f77b01; border-color: #0062cc00;
-                        box-shadow: 0 0 0 .2rem rgba(38, 143, 255, 0); ">Approve This Order</a>
+                        box-shadow: 0 0 0 .2rem rgba(38, 143, 255, 0); ">Approve This Order <i class="ml-5 	fa fa-check"></i></a>
                 </tr>
             {{-- <tr> --}}
             <thead>
