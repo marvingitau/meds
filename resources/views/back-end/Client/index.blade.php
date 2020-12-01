@@ -59,7 +59,7 @@
 
                   <div class="widget-box-400" style="float:left">
                     <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
-                      <h5>Credit limit vs Debt level </h5>
+                      <h5>Credit limit</h5>
                     </div>
                     <div class="widget-content" style="width: 400px; height: 400px;">
                         <canvas id="myChart" width="400" height="400"></canvas>
@@ -113,7 +113,7 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Code</th>
+                                <th>PONumber</th>
                                 <th>Description</th>
                                 <th>Amount</th>
                             </tr>
@@ -125,8 +125,9 @@
 
                             <tr>
                                 <td scope="row"><div class="text-center">{{ $item->created_at }}</div></td>
-                                <td><div class="text-center"> null </div></td>
-                                <td> <div class="text-center">uull </div></td>
+                                <td><div class="text-center">{{ $item->PONumber }}</div></td>
+                                <td> <div class="text-center0">{{ $item->product_name }}</div></td>
+                                <td> <div class="text-center0">{{ ($item->price * $item->quantity)*(116/100)}}</div></td>
                             </tr>
 
                             @endforeach
@@ -160,7 +161,7 @@
                                 <td scope="row"> <div class="text-center">{{ $item->product_name }}</div> </td>
                                 <td> <div class="text-center">{{ $item->size }}</div>  </td>
                                 <td> <div class="text-center">{{ $item->price }}</div>  </td>
-                                <td> <div class="text-center">{{ $item->price*$item->size }}</div>  </td>
+                                <td> <div class="text-center">{{ ($item->price * $item->quantity)*(116/100) }}</div>  </td>
                             </tr>
 
                             @endforeach
@@ -192,11 +193,11 @@
 
 
 @endsection
-{{-- <script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> --}}
-@section('jsblock')
 
-<script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+@section('jsblock')
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
 
 <script>
 
@@ -205,148 +206,165 @@ jQuery(document).ready(function(){
 
     var ctx = document.getElementById('myChart');
     var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Credit', 'Debit'],
-        datasets: [{
-            label: 'Credit limit & Debt level (Ksh)',
-            data: [
-            <?php echo $credit; ?>,
-            <?php echo $debit; ?>
-            ],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)'
-                // 'rgba(255, 206, 86, 0.2)',
-                // 'rgba(75, 192, 192, 0.2)',
-                // 'rgba(153, 102, 255, 0.2)',
-                // 'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)'
-                // 'rgba(255, 206, 86, 1)',
-                // 'rgba(75, 192, 192, 1)',
-                // 'rgba(153, 102, 255, 1)',
-                // 'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
+        type: 'bar',
+        data: {
+            labels: ['Credit lim','Credit bal'],
+            datasets: [{
+                label: 'Credit limit Vs Credit Balance (Ksh)',
+                data: [
+                <?php echo $creditlimit; ?>,
+                <?php echo $CreditBalance; ?>,
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                    // 'rgba(255, 206, 86, 0.2)',
+                    // 'rgba(75, 192, 192, 0.2)',
+                    // 'rgba(153, 102, 255, 0.2)',
+                    // 'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                    // 'rgba(255, 206, 86, 1)',
+                    // 'rgba(75, 192, 192, 1)',
+                    // 'rgba(153, 102, 255, 1)',
+                    // 'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
             }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
         }
-    }
     });
+
 
 
     var ct = document.getElementById('debtAgeing');
     var myChar = new Chart(ct, {
-    type: 'bar',
-    data: {
-        labels: ['current', '30 days','60 days','90 days','120 days'],
-        datasets: [{
-            label: 'Invoice Ageing for Ageing: CCHOG01',
-            data: [
-            <?php echo $current; ?>,
-            <?php echo $thirty; ?>,
-            <?php echo $sixty; ?>,
-            <?php echo $ninety; ?>,
-            <?php echo $onetwenty; ?>
+        type: 'bar',
+        data: {
+            labels: ['current', '30 days','60 days','90 days','120 days'],
+            datasets: [{
+                label: 'Debt  Ageing',
+                data: [
+                <?php echo $current; ?>,
+                <?php echo $thirty; ?>,
+                <?php echo $sixty; ?>,
+                <?php echo $ninety; ?>,
+                <?php echo $onetwenty; ?>,
 
-            ],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-                // 'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
-                // 'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                    // 'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                    // 'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
             }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
         }
-    }
     });
 
-    var ct = document.getElementById('myChartOrderValue');
+
+
+    var ct = document.getElementById('myChartOrderValue')
     var myChar = new Chart(ct, {
-    type: 'bar',
-    data: {
-        labels: ['Jan', 'Feb','Mar','May','Apr','Jun', 'Jul','Aug','Sep','Oct','Nov','Dec'],
-        datasets: [{
-            label: 'Invoice Ageing for Ageing: CCHOG01',
-            data: [
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb','Mar','May','Apr','Jun', 'Jul','Aug','Sep','Oct','Nov','Dec'],
+            datasets: [{
+                label: 'Invoice Ageing for Ageing: CCHOG01',
+                data: [
 
-            223,232,590,700,800,754,235,865,345,876,234,623
 
-            ],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
+
+                    <?php echo $period1; ?>,
+                    <?php echo $period2; ?>,
+                    <?php echo $period3; ?>,
+                    <?php echo $period4; ?>,
+                    <?php echo $period5; ?>,
+                    <?php echo $period6; ?>,
+                    <?php echo $period7; ?>,
+                    <?php echo $period8; ?>,
+                    <?php echo $period9; ?>,
+                    <?php echo $period10; ?>,
+                    <?php echo $period11; ?>,
+                    <?php echo $period12; ?>,
+
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
             }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
         }
-    }
     });
-
 
 
 });
+
+
 
 
 </script>

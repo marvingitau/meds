@@ -81,7 +81,7 @@ table, th, td {
                      <td > <div class="">{{ $item->product_name }}</div> </td>
                      <td> <div class="">{{ $item->quantity }}</div>  </td>
                      <td> <div class="">{{ $item->price }}</div>  </td>
-                     <td> <div class="">{{ $item->price*$item->quantity }}</div>  </td>
+                     <td> <div class="">{{ ($item->price*$item->quantity)*(116/100) }}</div>  </td>
                  </tr>
 
                  @endforeach

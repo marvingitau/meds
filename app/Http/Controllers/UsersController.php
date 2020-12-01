@@ -33,15 +33,45 @@ class UsersController extends Controller
     public function u_dashboard()
     {
         $menu_active=11;
+        $customer_code= auth()->user()->CustomerCode;
 
-        $debit = 34;
-        $credit =70;
+        // Fetch User Data
 
-        $current=7000000;
-        $thirty=70000000;
-        $sixty=2030000;
-        $ninety=2345548;
-        $onetwenty=9876543;
+
+        try {
+            $client = new Client;
+        $request = $client->get('http://41.207.79.81:89/sysproapi/v1/customer/statement/'.$customer_code.'/', ['verify' => false]);
+        $response = $request->getBody();
+        $user_summary=json_decode($response->getContents());
+
+        // dd($user_summary);
+
+        // HighestBalance
+        // CurrentBalance
+
+        $CreditBalance = $user_summary->ARStatement->TotalSection->CreditBalance;
+        $creditlimit = $user_summary->ARStatement->Header->CreditLimit;
+
+        $current= $user_summary->ARStatement->TotalSection->Current;
+        $thirty=$user_summary->ARStatement->TotalSection->Days30;
+        $sixty=$user_summary->ARStatement->TotalSection->Days60;
+        $ninety=$user_summary->ARStatement->TotalSection->Days90;
+        $onetwenty=$user_summary->ARStatement->TotalSection->Days120;
+
+        // sales history
+        $period1 = $user_summary->ARStatement->SalesHistory->Period01;
+        $period2 = $user_summary->ARStatement->SalesHistory->Period02;
+        $period3 = $user_summary->ARStatement->SalesHistory->Period03;
+        $period4 = $user_summary->ARStatement->SalesHistory->Period04;
+        $period5 = $user_summary->ARStatement->SalesHistory->Period05;
+        $period6 = $user_summary->ARStatement->SalesHistory->Period06;
+        $period7 = $user_summary->ARStatement->SalesHistory->Period07;
+        $period8 = $user_summary->ARStatement->SalesHistory->Period08;
+        $period9 = $user_summary->ARStatement->SalesHistory->Period09;
+        $period10 = $user_summary->ARStatement->SalesHistory->Period10;
+        $period11 = $user_summary->ARStatement->SalesHistory->Period11;
+        $period12 = $user_summary->ARStatement->SalesHistory->Period12;
+
 
         $session_id=Session::get('session_id');
         $cart_count =Cart::where('session_id',$session_id)->get()->count();
@@ -52,9 +82,79 @@ class UsersController extends Controller
         $id= auth()->user()->id;
         $invoice_data= CustomOrder::where('users_id',$id)->where('approved',0)->take(-10)->get();
         $statement_data= CustomOrder::where('users_id',$id)->where('approved',1)->take(-10)->get();
-        return view('back-end.Client.index',compact(['menu_active','debit','credit','current','thirty',
+        return view('back-end.Client.index',compact(['menu_active','CreditBalance','creditlimit','current','thirty',
         'sixty','ninety','onetwenty',
-        'invoice_data','statement_data']));
+        'invoice_data','statement_data',
+        'period1',
+        'period2',
+        'period3',
+        'period4',
+        'period5',
+        'period6',
+        'period7',
+        'period8',
+        'period9',
+        'period10',
+        'period11',
+        'period12',
+
+
+        ]));
+        } catch (\Throwable $th) {
+
+            $CreditBalance = null;
+            $creditlimit =null;
+
+            $current= null;
+            $thirty=null;
+            $sixty=null;
+            $ninety=null;
+            $onetwenty=null;
+            // sales history
+            $period1 = null;
+            $period2 = null;
+            $period3 = null;
+            $period4 = null;
+            $period5 = null;
+            $period6 = null;
+            $period7 = null;
+            $period8 = null;
+            $period9 = null;
+            $period10 = null;
+            $period11 = null;
+            $period12 = null;
+
+
+            $session_id=Session::get('session_id');
+            $cart_count =Cart::where('session_id',$session_id)->get()->count();
+
+            Session::put('cart_val',$cart_count);
+
+
+            $id= auth()->user()->id;
+            $invoice_data= CustomOrder::where('users_id',$id)->where('approved',0)->take(-10)->get();
+            $statement_data= CustomOrder::where('users_id',$id)->where('approved',1)->take(-10)->get();
+            return view('back-end.Client.index',compact(['menu_active','CreditBalance','creditlimit','current','thirty',
+            'sixty','ninety','onetwenty',
+            'invoice_data','statement_data',
+            'period1',
+            'period2',
+            'period3',
+            'period4',
+            'period5',
+            'period6',
+            'period7',
+            'period8',
+            'period9',
+            'period10',
+            'period11',
+            'period12',
+
+
+            ]));
+        }
+
+
     }
 
     public function order_sttus()
@@ -174,7 +274,7 @@ class UsersController extends Controller
                 fputcsv($file, $columns);
                 foreach ($result as $res) {
 
-                    fputcsv($file, [$res->order_id,$res->products_id,$res->product_name,$res->price,$res->quantity,($res->price*$res->quantity)
+                    fputcsv($file, [$res->order_id,$res->products_id,$res->product_name,$res->price,$res->quantity,(($res->price*$res->quantity)*(116/100))
                     ]);
                 }
                 fclose($file);
@@ -585,7 +685,7 @@ class UsersController extends Controller
     public function login(Request $request){
 
         $input_data=$request->all();
-        if(Auth::attempt(['email'=>$input_data['email'],'password'=>$input_data['password']],$request->get('remember'))){
+        if(Auth::attempt(['email'=>$input_data['email'],'password'=>$input_data['password'],'verified'=>1],$request->get('remember'))){
             Session::put('frontSession',$input_data['email']);
             Session::put('user_access','in');
              Session::put('cart_val',0);

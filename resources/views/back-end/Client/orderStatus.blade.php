@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="{{asset('public/css/custom-staffgen.css')}}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" /> --}}
 
 @endsection
 
@@ -53,13 +53,13 @@
                             <i class="fa fa-users icon"></i>
                             </a>
                         </li>
-                        <li <?php echo $currentClientOrder->progress_status_packaged == 1?'active':''; ?>>
+                        <li class="<?php echo $currentClientOrder->progress_status_packaged == 1?'active':''; ?>">
                             <a href="{{ route('cient.order.view',$currentClientOrder->id) }}" style="color:unset; text-decoration:none;" title="Orders in Accounts" class="tip-bottom">
                             Orders Packed <br>
                             <i class="fa fa-table icon"></i>
                             </a>
                         </li>
-                        <li <?php echo $currentClientOrder->progress_status_dispatch == 1?'active':''; ?>>
+                        <li class="<?php echo $currentClientOrder->progress_status_dispatch == 1?'active':''; ?>">
                             <a href="{{ route('cient.order.view',$currentClientOrder->id) }}" style="color:unset; text-decoration:none;" title="Dispatched Orders" class="tip-bottom">
                             Orders ready for Dispatch<br>
                             <i class="fa fa-truck icon"></i>

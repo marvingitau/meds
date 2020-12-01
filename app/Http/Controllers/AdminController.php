@@ -278,7 +278,7 @@ class AdminController extends Controller
  public function order_destroy($id)
  {
 
-    dd(Carbon::now()->toDateTimeString());
+    // dd(Carbon::now()->toDateTimeString());
      $delete = Orders::findOrFail($id);
      $delete->delete();
      return back()->with('message','Delete Success!');
