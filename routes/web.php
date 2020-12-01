@@ -143,7 +143,9 @@ Route::group(['middleware'=>'clientlogin'],function (){
 Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function (){
     Route::get('/', 'AdminController@index')->name('admin_home');
     Route::get('/pending_clients', 'AdminController@pending_clients')->name('pending_clients');
+    Route::get('/pending_clients/delete/{id}', 'AdminController@pending_clients_delete')->name('pending_clients_delete');
     Route::get('/approved_clients', 'AdminController@approved_clients')->name('approved_clients');
+    Route::get('/approved_clients/delete/{id}', 'AdminController@user_destroy')->name('approved_clients_destroy');
     Route::post('/approving_client/{id}', 'AdminController@approving_client')->name('approving_client');
 
     Route::get('/view_client/{id}', 'AdminController@view_client')->name('view_client');
@@ -151,13 +153,16 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function (){
 
     Route::get('/approved_order', 'AdminController@aprovd_order')->name('approved_order');
     Route::get('/pending_order', 'AdminController@pending_order')->name('pending_order');
+    Route::get('/pending_order/delete_order/{id}', 'AdminController@order_destroy')->name('delete_order');
+
     Route::get('/view_order/{id}', 'AdminController@viu_order')->name('view_order');//order to approve
 
     Route::get('/view_warehouse_order', 'AdminController@order_in_warehouse')->name('warehouse_order');//view clients order in warehouse
+    Route::get('/view_warehouse_order/delete/{id}', 'AdminController@wh_order_destroy')->name('warehouse_order_delete');//view delete warehouse
 
     Route::get('/view_app_order/{id}', 'AdminController@viu_app_order')->name('view_approved_order');//order to viu
     Route::get('/approving_order/{id}', 'AdminController@aproving_order')->name('approving_order');
-    Route::get('/admin_delete_order/{id}', 'AdminController@order_destroy')->name('delete_order');
+    Route::get('/approved_order/delete_order/{id}', 'AdminController@order_destroy')->name('delete_order');
 
 
     Route::post('/update_client/{id}','AdminController@updte_client')->name('update_client');
@@ -184,6 +189,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function (){
 
       // COMPLAIN URL
     Route::get('/complain_list', 'AdminController@list_complains')->name('complain_list');
+    Route::get('/complain_list/delete/{id}', 'AdminController@delete_complains')->name('complain_list_delete');
     Route::get('/complain_view/{id}', 'AdminController@view_complain')->name('complain_view');
     Route::get('/complain_approve/{id}', 'AdminController@approve_complain')->name('complain_approve');
     Route::post('/complain_response/{id}', 'AdminController@complain_response')->name('complain_response');
@@ -191,7 +197,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function (){
     // CURRENCY CONVERSION
     Route::get('/currency', 'AdminController@currency')->name('currency');
     Route::post('/currency_rate', 'AdminController@currency_rate')->name('currency_rate');
-    Route::get('/currency_rate_delete/{id}', 'AdminController@currency_delete')->name('currency_delete');
+    Route::get('/currency/currency_rate_delete/{id}', 'AdminController@currency_delete')->name('currency_delete');
 
 
 
@@ -215,8 +221,10 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function (){
 // HUMAN RESOURCE ULS
 Route::group(['prefix'=>'humanResource','middleware'=>['auth','hrSubadmin']],function (){
     Route::get('/','AdminController@hrindex')->name('hr');
+    Route::get('/order/delete/{id}','AdminController@previledgeUserDeleteOrder');// from hrindex
     Route::get('/staff/order/view/{id}', 'AdminController@hrViewStafforder')->name('hrviewStafforder');//order to approve
     Route::get('/staff/order/approved','AdminController@hrStaffApprovedOrder')->name('hrApprovedStaffOrder');
+    Route::get('/staff/order/approved/order/delete/{id}','AdminController@previledgeUserDeleteOrder'); // from hrapproved_order
     Route::get('/staff/order/approving/{id}', 'AdminController@hrApprovingOrder')->name('hrApprovingOrder');
     Route::get('/staff/order/approved/view/{id}', 'AdminController@otherAdminsViewApprovedOrder')->name('hrViewApprovedOrder');//order to viu
     Route::get('/staff/order/{id}','AdminController@previledgeUserDeleteOrder');
@@ -225,8 +233,10 @@ Route::group(['prefix'=>'humanResource','middleware'=>['auth','hrSubadmin']],fun
 // ACCOUNTS ULS
 Route::group(['prefix'=>'accounts','middleware'=>['auth','acSubadmin']],function (){
     Route::get('/','AdminController@acindex')->name('ac');
+    Route::get('/order/delete/{id}','AdminController@previledgeUserDeleteOrder'); //from index
     Route::get('/staff/order/view/{id}', 'AdminController@acViewStafforder')->name('acviewStafforder');//order to approve
     Route::get('/staff/order/approved','AdminController@acStaffApprovedOrder')->name('acApprovedStaffOrder');
+    Route::get('/staff/order/approved/delete/{id}','AdminController@previledgeUserDeleteOrder'); //from approved_order
     Route::get('/staff/order/approving/{id}', 'AdminController@acApprovingOrder')->name('acApprovingOrder');
     Route::get('/staff/order/approved/view/{id}', 'AdminController@otherAdminsViewApprovedOrder')->name('acViewApprovedOrder');//order to viu
     Route::get('/staff/order/{id}','AdminController@previledgeUserDeleteOrder');
@@ -237,15 +247,17 @@ Route::group(['prefix'=>'accounts','middleware'=>['auth','acSubadmin']],function
  // WAREHOUSE MANAGER ULS
  Route::group(['prefix'=>'warehouseManager','middleware'=>['auth','wrSubadmin']],function (){
     Route::get('/','AdminController@whmgrindex')->name('wmgr');
+    Route::get('/delete/{id}','AdminController@deleteuser')->name('delete_user');
     Route::get('/staff/order/view/{id}', 'AdminController@whmgrViewStafforder')->name('wrviewStafforder');//order to approve
 
     Route::get('/staff/order/packaging/{id}', 'AdminController@whmgrPackagingFin')->name('packaging_fin');//client (non staff) order packaged
     Route::get('/staff/order/dispatch/{id}', 'AdminController@whmgrReadyforDispatch')->name('readyfor_dispatch');//client (non staff) order ready for dispatch
 
     Route::get('/staff/order/approved','AdminController@whmgrStaffApprovedOrder')->name('whmgrApprovedStaffOrder');
+    Route::get('/staff/order/approved/order/delete/{id}','AdminController@previledgeUserDeleteOrder');
     Route::get('/staff/order/approving/{id}', 'AdminController@whmgrApprovingOrder')->name('whmgrApprovingOrder');
     Route::get('/staff/order/approved/view/{id}', 'AdminController@otherAdminsViewApprovedOrder')->name('otherAdminsViewApprovedOrder');//order to viu
-    Route::get('/order/delete/{id}','AdminController@previledgeUserDeleteOrder');
+    // Route::get('/order/delete/{id}','AdminController@previledgeUserDeleteOrder');
 
 });
 
@@ -274,7 +286,7 @@ Route::group(['prefix'=>'staff','middleware'=>['auth','staff']],function (){
         Route::get('/paypal','OrdersController@paypal')->name('paypal');
         Route::get('/visa','OrdersController@visa')->name('visa');
         Route::get('/document/list','StaffController@documents')->name('staff.document.list');
-        Route::get('/document/delete/{id}','StaffController@docdelete')->name('staff.document.delete');
+        Route::get('/document/list/delete/{id}','StaffController@docdelete')->name('staff.document.delete');
 
 
 

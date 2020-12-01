@@ -52,7 +52,7 @@
                     role="button" href="{{ route('acviewStafforder',$item->id)}}">
                             <span class="fa fa-eye"></span> view
                     </a>
-                    <button rel="{{$item->id}}" rel1="staff/order/delete" class="btn btn-danger btn-mini deleteRecord">
+                    <button rel="{{$item->id}}" rel1="order/delete" class="btn btn-danger btn-mini deleteRecord">
                         <span class="fa fa-trash-o"></span> Delete
                     </button></td>
                 </td>
@@ -117,7 +117,10 @@ $(".deleteRecord").click(function () {
                 buttonsStyling:false,
                 reverseButtons:true
             },function () {
-                window.location.href="/"+deleteFunction+"/"+id;
+                var getUrl = window.location;
+            var baseUrl = getUrl.pathname;
+
+                window.location.href= baseUrl+"/"+deleteFunction+"/"+id;
             });
         });
 

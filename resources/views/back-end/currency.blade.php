@@ -135,7 +135,9 @@ jQuery(document).ready(function($){
             buttonsStyling:false,
             reverseButtons:true
         },function () {
-            window.location.href="/admin/"+deleteFunction+"/"+id;
+            var getUrl = window.location;
+            var baseUrl = getUrl.pathname;
+            window.location.href= baseUrl+"/"+deleteFunction+"/"+id;
         });
     });
 });

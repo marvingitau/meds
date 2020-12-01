@@ -48,7 +48,7 @@
                         role="button" href="{{ route('view_approved_order',$item->id)}}">
                                 <span class="glyphicon glyphicon-edit"></span> view
                         </a>
-                        <button rel="{{$item->id}}" rel1="delete_order" class="btn btn-danger btn-mini deleteRecord">
+                        <button rel="{{$item->id}}" rel1="order/delete" class="btn btn-danger btn-mini deleteRecord">
                             <span class="glyphicon glyphicon-trash"></span> Delete
                         </button>
                     </div>
@@ -112,7 +112,9 @@
                 buttonsStyling:false,
                 reverseButtons:true
             },function () {
-                window.location.href="/admin/admin_"+deleteFunction+"/"+id;
+                var getUrl = window.location;
+            var baseUrl = getUrl.pathname;
+                window.location.href=baseUrl+"/"+deleteFunction+"/"+id;
             });
         });
 

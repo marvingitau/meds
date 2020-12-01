@@ -7,6 +7,13 @@
     </div>
     <!--End-breadcrumbs-->
 
+
+    @if(Session::has('message'))
+    <div class="alert alert-success text-center" role="alert">
+        <strong></strong>{{Session::get('message')}}
+    </div>
+   @endif
+
     <!--Action boxes-->
 
     <div class="widget-box">
@@ -44,7 +51,7 @@
                     role="button" href="{{ route('complain_view',$item->id)}}">
                             <span class="glyphicon glyphicon-edit"></span> view
                         </a>
-                        <button rel="{{$item->id}}" rel1="delete_approved_client" class="btn btn-danger btn-mini deleteRecord">
+                        <button rel="{{$item->id}}" rel1="delete" class="btn btn-danger btn-mini deleteRecord">
                             <span class="glyphicon glyphicon-trash"></span> Delete
                         </button></td>
 
@@ -110,7 +117,9 @@
                 buttonsStyling:false,
                 reverseButtons:true
             },function () {
-                window.location.href="/admin/"+deleteFunction+"/"+id;
+                var getUrl = window.location;
+                var baseUrl = getUrl.pathname;
+                window.location.href= baseUrl+"/"+deleteFunction+"/"+id;
             });
         });
 

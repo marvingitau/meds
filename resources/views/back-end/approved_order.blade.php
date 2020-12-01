@@ -112,7 +112,9 @@
                 buttonsStyling:false,
                 reverseButtons:true
             },function () {
-                window.location.href="/admin/admin_"+deleteFunction+"/"+id;
+                var getUrl = window.location;
+                var baseUrl = getUrl.pathname;
+                window.location.href=baseUrl +"/"+deleteFunction+"/"+id;
             });
         });
 

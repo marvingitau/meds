@@ -39,8 +39,18 @@ class AdminController extends Controller
     public function pending_clients()
     {
         $menu_active=4;
-        $user_data = User::select('id','name_of_institution','name','email')->where('approved',0)->whereNull('userId')->whereNull('role')->get();
+        $user_data = User::select('id','name_of_institution','name','email')->where('approved',0)->whereNull('userId')
+        ->whereNull('staff')
+        ->whereNull('admin')
+        ->whereNull('role')->get();
         return view('back-end.p_client',compact(['menu_active','user_data']));
+    }
+
+    public function pending_clients_delete($id)
+    {
+        $delete = User::findOrFail($id);
+        $delete->delete();
+        return back()->with('message','Delete Success!');
     }
 
     public function approved_clients()
@@ -274,6 +284,23 @@ class AdminController extends Controller
 
     }
 
+    public function wh_order_destroy($id)
+    {
+
+       // dd(Carbon::now()->toDateTimeString());
+        $delete = Orders::findOrFail($id);
+        $delete->delete();
+        return back()->with('message','Delete Success!');
+    }
+
+    public function user_destroy($id)
+    {
+
+       // dd(Carbon::now()->toDateTimeString());
+        $delete = User::findOrFail($id);
+        $delete->delete();
+        return back()->with('message','Delete Success!');
+    }
 
  public function order_destroy($id)
  {
@@ -284,11 +311,18 @@ class AdminController extends Controller
      return back()->with('message','Delete Success!');
  }
 
-        public function list_complains()
+    public function list_complains()
     {
         $menu_active=8;
         $all_complains = Complain::orderBy('created_at','desc')->get();
         return view('back-end.complain_list',compact(['menu_active','all_complains']));
+    }
+
+    public function delete_complains($id)
+    {
+        $delete = Complain::findOrFail($id);
+        $delete->delete();
+        return back()->with('message','Delete Success!');
     }
 
     public function view_complain($id)
@@ -575,6 +609,12 @@ class AdminController extends Controller
         return view('back-end.OtherAdmins.whmgrIndex',compact(['menu_active','pendingOrder']));
     }
 
+    public function deleteuser($id)
+    {
+        $Order = User::findOrFail($id);
+        $Order -> delete();
+        return back()->with('message','Order Deleted');
+    }
     public function whmgrViewStafforder($id)
     {
         $menu_active=60;
@@ -647,8 +687,6 @@ class AdminController extends Controller
     {
         $menu_active=7;
         $approvedOrder=Orders::where('progress_status_whmgr', 5)->where('order_verify', 1)->get();
-
-
         return view('back-end.OtherAdmins.approved_order',compact(['menu_active','approvedOrder']));
     }
 

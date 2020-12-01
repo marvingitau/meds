@@ -48,7 +48,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Action</th>
+                            <th>Action </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -69,7 +69,7 @@
 
                                 </td>
                                 <td class=" text-center">
-                                    <a rel="{{$fle->supporting_name }}" rel1="document/delete" class="btn btn-danger btn-mini deleteRecord" > <i class="fa fa-trash"></i> Remove Document</a>
+                                    <a rel="{{$fle->supporting_name }}" rel1="delete" class="btn btn-danger btn-mini deleteRecord" > <i class="fa fa-trash"></i> Remove Document</a>
                                 </td>
 
                                 @endif
@@ -126,7 +126,9 @@
                 buttonsStyling:false,
                 reverseButtons:true
             },function () {
-                window.location.href="/staff/"+deleteFunction+"/"+id;
+                var getUrl = window.location;
+            var baseUrl = getUrl.pathname;
+                window.location.href=baseUrl+"/"+deleteFunction+"/"+id;
             });
         });
 

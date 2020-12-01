@@ -7,6 +7,12 @@
     </div>
     <!--End-breadcrumbs-->
 
+    @if(Session::has('message'))
+    <div class="alert alert-success text-center" role="alert">
+        <strong></strong>{{Session::get('message')}}
+    </div>
+   @endif
+
     <!--Action boxes-->
 
     <div class="widget-box">
@@ -42,12 +48,7 @@
                             <span class="glyphicon glyphicon-edit"></span> view
                         </a>
 
-                        <!--<button class=" btn btn-info"-->
-                        <!--    data-info="{{$item->id}},{{$item->name}}">-->
-                        <!--    <span class="glyphicon glyphicon-edit"></span> Edit-->
-                        <!--</button>-->
-                        <button class="delete-modal btn btn-danger"
-                            data-info="{{$item->id}},{{$item->name}}">
+                        <button rel="{{$item->id}}" rel1="delete" class="delete-modal btn btn-danger deleteRecord">
                             <span class="glyphicon glyphicon-trash"></span> Delete
                         </button></td>
                 </tr>
@@ -110,7 +111,9 @@
                 buttonsStyling:false,
                 reverseButtons:true
             },function () {
-                window.location.href="/admin/"+deleteFunction+"/"+id;
+                var getUrl = window.location;
+            var baseUrl = getUrl.pathname;
+                window.location.href=baseUrl+"/"+deleteFunction+"/"+id;
             });
         });
 
