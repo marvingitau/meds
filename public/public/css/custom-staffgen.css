@@ -418,4 +418,131 @@ position: relative;
         max-width: 100%;
         margin: 1.75rem auto;
     }
+
+
+}
+
+@media screen and (max-width:768px){
+    #header {
+        background-color: #042342 !important;
+        margin-top: 0px;
+    }
+
+    .custom-user-header {
+        height: 12rem;
+    }
+
+    #user-nav {
+        position: absolute !important;
+        left: 0rem !important;
+        top: 14px !important;
+        z-index: 20;
+        margin: 0;
+        width: 100% !important;
+        background: #2E363F00 !important;
+    }
+
+    #user-nav > ul > li {
+        float: left;
+        list-style-type: none;
+        margin: 0;
+        position: relative;
+        /* padding: 0; */
+        border-left: 1px solid #000 !important;
+        border-right: 1px solid #000 !important;
+        /* background: #5690db !important; */
+        border-top: 1px solid #000;
+    }
+
+    #user-nav2 {
+        position: absolute !important;
+        right: 0px;
+        top: 87px;
+        z-index: 20;
+        margin: 0;
+    }
+
+    #user-nav > ul {
+        right: 0px;
+        margin-left: 0% !important;
+        margin-top: 0px;
+        width: 100% !important;
+        background: #000 ;
+        position: relative;
+    }
+
+    #sidebar > ul {
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        display: block !important;
+        z-index: 999;
+        position: relative;
+    }
+
+    #content-header {
+        position: relative;
+        width: 100%;
+        /* margin-top: -96px !important; */
+        z-index: 19 !important;
+    }
+
+    #content {
+        background: none repeat scroll 0 0 #eeeeee;
+        /* margin-left: 220px; */
+        margin-left: 43px;
+        margin-right: 0;
+        padding-bottom: 25px;
+
+        padding-top: 3rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        overflow-y: scroll;
+    }
+
+    .progressbar li::before {
+        content: counter(step);
+        counter-increment: step;
+        width: 35px;
+        height: 38px;
+        line-height: 33px;
+        border: 3px solid #ddd;
+        border-radius: 100%;
+        display: block;
+        text-align: center;
+        margin: 0 auto 14px auto;
+        background-color: #fff;
+        z-index: 1;
+        position: relative;
+    }
+
+    .progressbar li {
+        list-style: none;
+        display: inline-block;
+        width: 30.33%;
+        position: relative;
+        text-align: center;
+        /* cursor: pointer; */
+        margin-bottom: 2rem;
+    }
+
+   .row-fluid #DataTables_Table_0_wrapper {
+        min-width: 48rem;
+    }
+
+    .row-fluid .btn.btn-primary {
+        margin-top: 1rem;
+    }
+
+    .progressbar li .icon {
+        font-size: 2rem;
+    }
+
+
+    #header h1 {
+        top: 10px;
+        left: 35px;
+        display: none;
+    }
+
 }

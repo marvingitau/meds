@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="public/css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="public/css/colorpicker.css" />
     <link rel="stylesheet" href="public/css/datepicker.css" />
-    <link rel="stylesheet" href="public/css/custom.css" />
+    <link rel="stylesheet" href="public/css/custom-staffgen.css" />
     <link rel="stylesheet" href="public/css/uniform.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="public/css/matrix-style.css" />
@@ -46,7 +46,7 @@
                 <tr>
                     <td><span style="padding-right:3px;">Name: </span>
 
-                       
+
                            {{ $client_data->name }}
 
 
@@ -119,11 +119,11 @@
                       @endif
 
 
-                     
 
 
 
-                    
+
+
 
                     </div>
 
@@ -338,7 +338,7 @@
 
                                 <a href="{{ asset(''.$authorizedToOrder->payment_authorizedpersonelsign) }}" target="_blank" rel="noopener noreferrer"> <?php echo substr($authorizedToOrder->payment_authorizedpersonelsign, 20)?></a>
 
-                               
+
                             </td>
 
                             <td>{{ $authorizedToOrder->payment_authorizedpersoneldesignation  }}
@@ -379,7 +379,7 @@
 
                                 <a href="{{ asset(''.$Guarantors->guarantorsignature) }}" target="_blank" rel="noopener noreferrer"> <?php echo substr($Guarantors->guarantorsignature, 20)?></a>
 
-                                
+
 
                             </td>
                             <td> {{ $Guarantors->guarantordesignation  }}
@@ -394,7 +394,7 @@
                   </tbody>
               </table>
 
-            
+
 
 
 

@@ -12,8 +12,10 @@
 <link rel="stylesheet" href="{{asset('public/css/matrix-style.css')}}" />
 <link rel="stylesheet" href="{{asset('public/css/matrix-media.css')}}" />
 <link rel="stylesheet" href="{{asset('public/css/bootstrap-wysihtml5.css')}}" />
-<link rel="stylesheet" href="{{asset('public/css/custom.css')}}" />
+<link rel="stylesheet" href="{{asset('public/css/custom-staffgen.css')}}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
 
 @endsection
 
@@ -41,14 +43,14 @@
 
 
                 <div class="form-group">
-                    <label for="">Title</label>
+                    <label for="" class="ml-2"><b>Title</b> </label>
                     <input type="text"
                     class="form-control w-100" name="title" id="" aria-describedby="helpId" placeholder="">
 
                 </div>
 
                 <div class="form-group">
-                    <label for="">Content</label>
+                    <label for="" class="ml-2"> <b> Content</b></label>
                     <textarea class="form-control editor1 w-100" name="details" id="" rows="3"></textarea>
                 </div>
 
@@ -123,33 +125,16 @@
 
 
 @endsection
-{{-- <script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> --}}
 @section('jsblock')
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="{{asset('public/js/excanvas.min.js')}}"></script>
-{{-- <script src="{{asset('js/jquery.min.js')}}"></script> --}}
 
+{{-- <script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> --}}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
-<script src="{{asset('public/js/jquery.ui.custom.js')}}"></script>
-<script src="{{asset('public/js/bootstrap.min.js')}}"></script>
-<script src="{{asset('public/public/js/jquery.flot.min.js')}}"></script>
-<script src="{{asset('public/js/jquery.flot.resize.min.js')}}"></script>
-<script src="{{asset('public/js/jquery.peity.min.js')}}"></script>
-<script src="{{asset('public/js/fullcalendar.min.js')}}"></script>
-<script src="{{asset('public/js/matrix.js')}}"></script>
-<script src="{{asset('public/js/matrix.dashboard.js')}}"></script>
-<script src="{{asset('js/jquery.gritter.min.js')}}"></script>
-<script src="{{asset('js/matrix.interface.js')}}"></script>
-<script src="{{asset('js/matrix.chat.js')}}"></script>
-<script src="{{asset('js/jquery.validate.js')}}"></script>
-<script src="{{asset('js/jquery.wizard.js')}}"></script>
-<script src="{{asset('js/jquery.uniform.js')}}"></script>
-<script src="{{asset('js/select2.min.js')}}"></script>
-<script src="{{asset('js/matrix.popover.js')}}"></script>
-<script src="{{asset('public/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('public/js/matrix.tables.js')}}"></script>
-<script src="{{asset('js/matrix.form_validation.js')}}"></script>
+{{-- <script src="{{asset('public/js/jquery.dataTables.min.js')}}"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
 <script type="text/javascript">
@@ -171,7 +156,10 @@
             buttonsStyling:false,
             reverseButtons:true
         },function () {
-            window.location.href="/"+deleteFunction+"/"+id;
+            var getUrl = window.location;
+            var baseUrl = getUrl.pathname;
+            // console.log("/"+deleteFunction+"/"+id);
+            window.location.href=baseUrl+ "/"+deleteFunction+"/"+id;
         });
     });
 

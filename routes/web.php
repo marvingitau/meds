@@ -114,8 +114,8 @@ Route::group(['middleware'=>'clientlogin'],function (){
     Route::get('/paypal','OrdersController@paypal');
 
     Route::get('/complains', 'UsersController@logde_complain')->name('complain');
-    Route::post('/complain_data_upload', 'UsersController@complain_data')->name('complain_upload');
-    Route::get('/complain_data_delete/{id}', 'UsersController@complain_data_delete')->name('errase_complain_data');
+    Route::post('/complains/complain_data_upload', 'UsersController@complain_data')->name('complain_upload');
+    Route::get('/complains/complain_data_delete/{id}', 'UsersController@complain_data_delete')->name('errase_complain_data');
 
     Route::post('/product/cat', 'UsersController@productcat')->name('product.cat');
 
